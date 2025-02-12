@@ -15,6 +15,7 @@ main {
 
 img {
   max-width: 100%;
+  height: auto;
 }
 main {
   padding: 10px;
@@ -55,22 +56,54 @@ main {
 /* header edits  */
 header {
   display: flex;
-  /* justify-content: space-between; */
+  justify-content: space-between;
   margin-top: 20px;
   margin-bottom: 50px;
   align-items: center;
+  /* position: relative;
+  left: 100px; */
+
 }
 
 header a {
   text-decoration: none;
-  color: inherit;
+  flex-grow: 0;
+  color: #F6F6F6;
+  
+}
+
+.loginHeader {
+  display: flex;
+  align-items:center;
+  background: #F6E4E3;
+  color: #2A2122;
+  padding-right: 11px;
+  border-radius: 10px;
+
+}
+
+.loginHeader svg {
+  fill:#2A2122;
+
+}
+
+.registerHeader {
+  display: flex;
+  align-items: center;
+  background: #2A2122 ;
+  padding: 3px 9px;
+  border-radius: 10px;
+  border: solid 2px #F6E4E3
+
 }
 
 header a.logo {
   font-weight: bold;
-  font-size: 1.5rem;
-  flex-grow: 3;
+  font-size: 2rem;
+  flex-grow: 4;
   text-align: center;
+  justify-content: center;
+
 }
 
 header nav {
@@ -78,9 +111,39 @@ header nav {
   gap: 15px;
   flex-grow: 1;
   text-align: right;
+  color: #F6F6F6;
   
 }
 
+/* create new post button */
+.createNewPost {
+  display: flex;
+  align-items: center;
+  background: #2A2122 ;
+  padding-right: 12px;
+  border-radius: 10px;
+  border: solid 2px #F6E4E3
+}
+
+.createNewPost svg {
+  fill: #F6F6F6;
+}
+
+/* header logout button  once logged in*/
+nav button {
+  background: #F6E4E3;
+    color: #2A2122;
+    border: none;
+    padding: 4px 7px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    border: solid 2px #2A2122;
+}
+
+nav svg {
+  height: 20px;
+}
 
 @media screen and (min-width: 600px) {
   div.post{
@@ -94,7 +157,7 @@ header nav {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-top: 100px;
+  margin: 100px auto;
   width: 75%;
   gap: 20px;
 }
@@ -240,19 +303,6 @@ form.register input, form.login input {
   border: 1px solid #F6E4E3;
 }
 
-nav button {
-  background: none;
-    color: black;
-    border: none;
-    padding: 0;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-.createPostButton {
-  margin-top: 5px;
-  cursor: pointer;
-}
 
 .deleteBtn {
   display: flex;
