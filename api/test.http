@@ -1,0 +1,4 @@
+
+//test endpoints 
+
+DELETE http://localhost:4000/post/67a5bcaed2905a6566ceffd8

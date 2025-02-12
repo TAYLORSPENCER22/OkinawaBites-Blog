@@ -1,0 +1,337 @@
+* {
+  box-sizing: border-box;
+  font-family: "Nerko One", serif;
+  font-weight: 400;
+  font-style: normal;
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  min-height: 1000px;
+  display: flex;
+  flex-direction: column;
+}
+
+img {
+  max-width: 100%;
+}
+main {
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+  /* background-color: #847E2A; */
+}
+
+/* background colors for diff pages  */
+.home {
+  background-color: #847E2A;
+  min-height: 1000px;
+}
+
+.login {
+  background-color: #847E2A;
+}
+
+.register {
+  background-color: #847E2A;
+}
+
+.post-page {
+  background-color: #2A2122 ;
+  min-height: 1000px;
+}
+
+.edit-page {
+  background-color: #F6F6F6;
+  min-height: 1000px;
+}
+
+.create { 
+  background-color: #F6F6F6;
+  min-height: 1000px;
+}
+
+/* header edits  */
+header {
+  display: flex;
+  /* justify-content: space-between; */
+  margin-top: 20px;
+  margin-bottom: 50px;
+  align-items: center;
+}
+
+header a {
+  text-decoration: none;
+  color: inherit;
+}
+
+header a.logo {
+  font-weight: bold;
+  font-size: 1.5rem;
+  flex-grow: 3;
+  text-align: center;
+}
+
+header nav {
+  display:flex;
+  gap: 15px;
+  flex-grow: 1;
+  text-align: right;
+  
+}
+
+
+@media screen and (min-width: 600px) {
+  div.post{
+    grid-template-columns: 0.9fr 1.1fr;
+  }
+}
+
+
+.postCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 100px;
+  width: 75%;
+  gap: 20px;
+}
+
+div.post { 
+  display: flex;
+  padding: 30px;
+  align-items: flex-start;
+  gap: 30px;
+  align-self: stretch;
+  border-radius: 40px;
+  border: 4px solid #D7E3F1;
+  background: #2A2122;
+
+}
+.texts {
+  display: flex;
+  width: 50%;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-self: stretch;
+}
+
+div.post img {
+  width: 50%;
+  height: auto;
+}
+
+/* article title */
+div.post div.texts a {
+  text-decoration: none;
+  color: #F6F6F6;
+}
+
+div.post p.info {
+  margin: 6px 0;
+  margin: 0;
+  color: #888;
+  font-size: .7rem;
+  font-weight: bold;
+  display: flex;
+  gap: 10px;
+}
+
+/* author button  */
+div.post p.info a.author {
+  display: flex;
+  font-family: Epilogue;
+  font-weight: bold;
+  font-size: 10px;
+  align-items: center;
+  color: #333;
+  width: auto;
+  background: #ACEBF1;
+  border-radius: 70px;
+  padding: 6px 8px 4px 8px;
+}
+
+
+/* home page  */
+
+
+
+
+/* article summary on home page */
+div.post p.summary {
+  color: #F6F6F6;
+  font-family: Epilogue;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 14px;
+
+}
+
+.homeTime {
+  display: flex;
+  font-family: Epilogue;
+  font-size: 9px;
+  align-items: center;
+  color: #F6F6F6;
+  width: auto;
+  background: #A73A5E;
+  border-radius: 70px;
+  padding: 6px 8px 4px 8px;
+}
+
+form.login {
+  max-width: 400px;
+  max-height: 400px;
+  margin: 0 auto;
+  background-color: #D7E3F1;
+
+}
+
+/* register and login page  */
+.register-container, .login-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 100px;
+}
+
+form.register, form.login {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 250px;
+  min-height: 250px;
+  margin: 0 auto;
+  background-color: #D7E3F1;
+  padding: 5px;
+  border-radius: 20px;
+  border: 2px solid #2A2122;;
+}
+
+form.register input, form.login input {
+  width: 80%;
+  text-align: center;
+  font-family: Epilogue;
+  display: block;
+  margin-bottom: 5px;
+  justify-content: center;
+  padding: 4px 7px;
+  border: 1px solid #2A2122;
+  border-radius: 20px;
+  background-color: #fff;
+}
+
+.login button, .register button {
+  display: flex;
+  align-items: center;
+  color: #F6F6F6;
+  width:auto;
+  background: #2A2122;
+  border-radius: 8px;
+  padding: 3px 17px;
+  border: 1px solid #F6E4E3;
+}
+
+nav button {
+  background: none;
+    color: black;
+    border: none;
+    padding: 0;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.createPostButton {
+  margin-top: 5px;
+  cursor: pointer;
+}
+
+.deleteBtn {
+  display: flex;
+  align-items: center;
+  color: #2A2122;
+  width:auto;
+  background: #F6E4E3;
+  border-radius: 10px;
+  padding: 3px 10px;
+}
+
+div.post-page div.image{
+  max-height: 200px;
+  display: flex;
+  overflow: hidden;
+}
+
+div.post-page div.image img {
+  object-fit: cover;
+  object-position: center center;
+  width: 100%;
+}
+
+div.post-page a{
+  color: #F6F6F6;
+}
+
+div.post-page h1 {
+  text-align: center;
+  margin: 10px 0 5px;
+  color: #F6F6F6;
+
+}
+
+/* time button on edit page */
+div.post-page time {
+  background: #A73A5E;
+  padding: 6px 8px 4px 8px;
+  border-radius: 70px;
+  color: #F6F6F6;
+  font-family: Epilogue;
+  font-size: 9px;
+  align-items: center;
+}
+
+
+
+div.post-page div.author {
+  margin-bottom: 20px;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+div.post-page div.content p {
+  line-height: 1.6rem;
+}
+
+div.edit-row{
+  text-align: center;
+  margin-bottom: 20px;
+
+}
+
+div.post-page a.edit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  text-decoration: none;
+  color: #fff;
+  padding: 7px 18px;
+  border-radius: 20px;
+  border: solid 2px #F6E4E3;
+}
+
+a svg {
+  height: 18px;
+
+}
+button svg {
+  height: 12px;
+  padding-right: 3px;
+}
