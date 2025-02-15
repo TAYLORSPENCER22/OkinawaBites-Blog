@@ -62,7 +62,7 @@ app.post('/login', async (req,res) => {
     }
 });
 
-//verify json webtoken 
+//verify json webtoken is valid and login 
 
 app.get('/profile', (req,res) => {
     const {token} = req.cookies;
@@ -80,7 +80,7 @@ app.get('/profile', (req,res) => {
     });
 });
 
-//logout of account 
+//logout endpoing
 app.post('/logout', (req, res) => {
     res.clearCookie('token', { sameSite: 'none', secure: true });
     res.json({ message: 'ok' });
@@ -125,7 +125,7 @@ app.put('/post', uploadMiddleware.single('file'), async (req,res) => {
         fs.renameSync(path, newPath);
     }
 
-
+//verify the json webtoken & then update current post
     const {token} = req.cookies;
 
     jwt.verify(token, secret, {}, async (err, info) => {
@@ -149,7 +149,7 @@ app.put('/post', uploadMiddleware.single('file'), async (req,res) => {
 });
 
 
-//load blog posts on home page
+//endpoint to load blog posts on home page
 
 app.get('/post', async (req,res) => {
     res.json(
