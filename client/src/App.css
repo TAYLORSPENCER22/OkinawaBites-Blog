@@ -107,6 +107,7 @@ header a {
 }
 
 .registerHeader:hover {
+  background: #1B1516;
   outline-offset: solid 1px #2A2122;
   outline-offset: -1px;
 }
@@ -140,16 +141,23 @@ header nav {
   background: #2A2122 ;
   padding-right: 12px;
   border-radius: 10px;
-  border: solid 2px #F6E4E3
+  /* border: solid 2px #F6E4E3; */
+  outline: 2px solid #F6F6F6;
+  outline-offset: 0px;
+  
 }
+
+.createNewPost:hover {
+  background: #1B1516;
+  outline-offset: solid 1px #F6F6F6;
+  outline-offset: -1px;
+}
+
 
 .createNewPost svg {
   fill: #F6F6F6;
 }
 
-.createNewPost:hover {
-
-}
 
 /* header logout button  once logged in*/
 nav button {
