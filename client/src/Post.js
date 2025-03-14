@@ -14,11 +14,11 @@ export default function Post({ _id,title, summary, cover, content, createdAt, au
         <Link to = {`/post/${_id}`}>
           <h2 className="titleSummary">{title}</h2>
           </Link>
+          <p className="summary">{summary}</p>
           <p className="info">
             <a className="author">{author.username}</a>
             <time className="homeTime">{format(new Date(createdAt), 'MMM d, yyyy HH:mm')}</time>
             </p>
-          <p className="summary">{summary}</p>
         </div>
       </div>
       

@@ -214,7 +214,7 @@ div.post {
 }
 .texts {
   display: flex;
-  width: 50%;
+  width: 60%;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
@@ -242,6 +242,9 @@ div.post p.info {
   font-weight: bold;
   display: flex;
   gap: 10px;
+  width: 100%;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 /* author button on home page */
@@ -255,7 +258,7 @@ div.post p.info a.author {
   width: auto;
   background: #ACEBF1;
   border-radius: 70px;
-  padding: 6px 8px 4px 8px;
+  padding: 5px 8px 5px 8px;
 }
 
 
@@ -281,7 +284,7 @@ div.post p.summary {
   width: auto;
   background: #A73A5E;
   border-radius: 70px;
-  padding: 6px 8px 4px 8px;
+  padding: 5px 8px 5px 8px;
 }
 
 form.login {
