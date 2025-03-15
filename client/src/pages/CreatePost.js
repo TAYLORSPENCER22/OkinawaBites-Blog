@@ -33,13 +33,14 @@ export default function CreatePost() {
         return <Navigate to ={'/'} />
     }
     return (
-        <form onSubmit={createNewPost}>
+        <form className="quillFormat" onSubmit={createNewPost}>
+            <h1 className="quillNewPostHeader">New Post</h1>
             <input type="title"
                 placeholder={'Title'}
                 value={title}
                 onChange ={ev => setTitle(ev.target.value)}/>
             <input type="summary" 
-                placeholder={'Summary'}
+                placeholder={'Description'}
                 value={summary}
                 onChange={ev => setSummary(ev.target.value)} />
             <input type="file"

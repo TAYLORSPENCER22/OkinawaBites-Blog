@@ -8,7 +8,8 @@
 }
 
 main {
-  min-height: 1000px;
+  min-height:100vh;
+  min-width: 100vh;
   display: flex;
   flex-direction: column;
 }
@@ -27,7 +28,7 @@ main {
 /* background colors for diff pages  */
 .home {
   background-color: #847E2A;
-  min-height: 1000px;
+  min-height: 100vh;
 }
 
 .login {
@@ -40,17 +41,66 @@ main {
 
 .post-page {
   background-color: #2A2122 ;
-  min-height: 1000px;
+  min-height: 100vh;
 }
 
 .edit-page {
   background-color: #F6F6F6;
-  min-height: 1000px;
+  min-height: 100vh;
 }
 
 .create { 
   background-color: #F6F6F6;
-  min-height: 1000px;
+  min-height: 100vh;
+  display: flex;
+  /* flex-direction: column;
+  align-items: center;
+  justify-content: center; */
+}
+
+.create header a.logo {
+  color: #2A2122;
+}
+
+/* edit quill */
+.quillFormat {
+  margin: 20px auto auto auto;
+  display: flex;
+  flex-direction: column;
+  width: 75%;
+  gap: 1px;
+  align-items: center;
+  justify-content: center;
+}
+
+.quillNewPostHeader {
+  margin-bottom: 30px;
+}
+
+.quillFormat input {
+  width: 90%;
+  background-color: transparent;
+  border: 1px solid #2A2122;
+  border-radius: 10px;
+  padding: 5px 12px;
+  margin: 3px;
+  margin-bottom: 4px;
+}
+
+
+.quillFormat div.quill {
+  width: 90%;
+  min-height: 300px;
+  max-height: 400px;
+  overflow: hidden;
+  border: 1px solid #2A2122;
+  border-radius: 10px;
+}
+
+.quill .ql-editor {
+  min-height: 200px; /* Adjust as needed */
+  max-height: 350px;
+  overflow-y: auto;
 }
 
 /* header edits  */
@@ -460,3 +510,5 @@ button svg {
   height: 12px;
   padding-right: 3px;
 }
+
+

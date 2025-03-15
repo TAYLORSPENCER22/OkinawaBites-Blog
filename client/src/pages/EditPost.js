@@ -51,7 +51,8 @@ export default function EditPost() {
 
     return (
         <div>
-            <form onSubmit={updatePost}>
+            <form className="quillFormat" onSubmit={updatePost}>
+                <h1>Edit Post</h1>
                 <input type="title"
                     placeholder={'Title'}
                     value={title}
@@ -64,10 +65,10 @@ export default function EditPost() {
                         onChange={ev => setFiles(ev.target.files)}  />
                 <Editor onChange={setContent} value={content} />
                 <button className="createPostButton">Update Post</button>
-            </form>
             <div>
-            <DeletePage />
+                <DeletePage />
             </div>
+            </form>
         </div>
     );
 }
