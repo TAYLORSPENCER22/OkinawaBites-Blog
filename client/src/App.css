@@ -368,7 +368,7 @@ form.login {
     width: 90%; /* Ensure the form takes more space on small screens */
     max-width: 300px; /* Limit the max width for better proportion */
     min-height: 220px; /* Slightly reduce height for compact screens */
-    padding: 15px; /* Less padding to fit better */
+    padding: 15px; /* 
   }
 }
 
