@@ -3,7 +3,7 @@ import { useParams, useNavigate, Navigate } from "react-router-dom";
 
 export default function DeletePage() {
     const { id } = useParams(); // get Id from URL 
-    const navigate = useNavigate(); // Navigate after deletion
+    const navigate = useNavigate(); // navigate after deletion
 
     async function deletePost() {
         const response = await fetch(`http://localhost:4000/post/${id}`, {
