@@ -241,7 +241,6 @@ nav svg {
   div.post {
     max-width: 80vw;
     flex-direction: column;
-    position: relative;
   }
 
   div.post div.texts a {
