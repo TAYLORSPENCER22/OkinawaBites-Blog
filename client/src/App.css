@@ -9,7 +9,7 @@
 
 main {
   min-height:100vh;
-  min-width: 100vh;
+  min-width: 100vw;
   display: flex;
   flex-direction: column;
 }
@@ -18,17 +18,13 @@ img {
   max-width: 100%;
   height: auto;
 }
-main {
-  padding: 10px;
-  width: 100%;
-  height: 100%;
-  /* background-color: #847E2A; */
-}
+
 
 /* background colors for diff pages  */
 .home {
   background-color: #847E2A;
   min-height: 100vh;
+  min-width: 100vw;
 }
 
 .login {
@@ -53,9 +49,6 @@ main {
   background-color: #F6F6F6;
   min-height: 100vh;
   display: flex;
-  /* flex-direction: column;
-  align-items: center;
-  justify-content: center; */
 }
 
 .create header a.logo {
@@ -191,7 +184,6 @@ header nav {
   background: #2A2122 ;
   padding-right: 12px;
   border-radius: 10px;
-  /* border: solid 2px #F6E4E3; */
   outline: 2px solid #F6F6F6;
   outline-offset: 0px;
   
@@ -240,6 +232,24 @@ nav svg {
   }
 }
 
+/* home page responsive  */
+@media screen and (max-width: 400px) {
+  div.postCard {
+    margin: 70px auto;
+  }
+
+  div.post {
+    max-width: 80vw;
+    flex-direction: column;
+    position: relative;
+  }
+
+  div.post div.texts a {
+    position: relative;
+  }
+
+
+}
 
 .postCard {
   display: flex;
@@ -357,20 +367,6 @@ form.login {
 }
 
 
-@media (max-width: 430px) { /* Targeting mobile devices */
-  .register-container, .login-container {
-    max-width: 100vh;
-    width: 90%; /* Make it take more space on small screens */
-    margin-top: 50px; /* Reduce top margin for better spacing */
-    padding: 10px; /* Less padding for small screens */
-  }
-  form.register, form.login {
-    width: 90%; /* Ensure the form takes more space on small screens */
-    max-width: 300px; /* Limit the max width for better proportion */
-    min-height: 220px; /* Slightly reduce height for compact screens */
-    padding: 15px; /* 
-  }
-}
 
 
 form.register, form.login {
