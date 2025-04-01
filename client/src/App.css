@@ -226,35 +226,36 @@ nav svg {
   height: 20px;
 }
 
-@media screen and (min-width: 600px) {
-  div.post{
-    grid-template-columns: 0.9fr 1.1fr;
-  }
-}
 
-/* home page responsive  */
+/* home page responsive for phones */
 @media screen and (max-width: 400px) {
   div.postCard {
     margin: 70px auto;
   }
 
   div.post {
-    max-width: 85vw;
+    display: flex;
+    flex-direction: column;
+    max-width: 80vw;
     place-items: center;
     justify-content: center;
-    
+    position: relative;
   }
 
   h2.titleSummary {
     position: absolute;
     right: 0px;
-    width: 50px;
+    width: 250px !important; /* Makes the text wrap */
+    word-wrap:normal; /* Ensures words break if necessary */
   }
 
-  div.image {
-    width: 100%;
-    
-  } 
+  div.post img {
+    width: 100px;
+    border-radius: 15px;
+    height: auto;
+    padding: 0;
+  }
+
   div.post p.summary {
     display: none;
   }
