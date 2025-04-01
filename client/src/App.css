@@ -244,8 +244,10 @@ nav svg {
 
   h2.titleSummary {
     position: absolute;
-    right: 0px;
-    width: 250px !important; /* Makes the text wrap */
+    right: 15px;
+    top:10px;
+    font-size: 20px;
+    width: 230px !important; /* Makes the text wrap */
     word-wrap:normal; /* Ensures words break if necessary */
   }
 
@@ -254,6 +256,9 @@ nav svg {
     border-radius: 15px;
     height: auto;
     padding: 0;
+    position: absolute;
+    bottom: 30px;
+    right: 50px;
   }
 
   div.post p.summary {
@@ -261,7 +266,8 @@ nav svg {
   }
 
    p.info {
-
+    position: absolute;
+    bottom: 0px;
   }
    
 
