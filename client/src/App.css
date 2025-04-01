@@ -302,15 +302,19 @@ div.post {
 }
 
 div.post img {
-  width: 100%;
+  width: 200px;
   max-width: 200px;
   border-radius: 15px;
   height: auto;
   padding: 0;
 }
 
+a {
+  text-decoration: none;
+}
+
 /* article title */
-div.post div.texts a {
+h2.titleSummary {
   text-decoration: none;
   color: #F6F6F6;
 }

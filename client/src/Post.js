@@ -5,12 +5,10 @@ export default function Post({ _id,title, summary, cover, content, createdAt, au
     return (
       
       <div className="post">
-        <div className="image">
           <Link to = {`/post/${_id}`}>
-          <img src={'http://localhost:4000/'+cover} alt=""/>
+          <img className="image" src={'http://localhost:4000/'+cover} alt=""/>
           </Link>
-        </div>
-        <div className="texts">
+        
         <Link to = {`/post/${_id}`}>
           <h2 className="titleSummary">{title}</h2>
           </Link>
@@ -19,7 +17,7 @@ export default function Post({ _id,title, summary, cover, content, createdAt, au
             <a className="author">{author.username}</a>
             <time className="homeTime">{format(new Date(createdAt), 'MMM d, yyyy HH:mm')}</time>
             </p>
-        </div>
+        
       </div>
       
     );
