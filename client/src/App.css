@@ -536,23 +536,31 @@ button svg {
 
   div.post {
   flex-direction: column;
-  align-items: center;
   flex-wrap: nowrap;
   height: 400px;
-    
+  position: relative;
   }
 
   h2.titleSummary {
-    align-self: flex-start;
-    position: absolute;
-    /* bottom: 180px; */
+    bottom: 10px;
+    position: relative;
+    text-align: center;
+    font-size: 1.2em;
     }
 
   div.post img {
-   
+  display: flex;
+   max-width: 70%;
+   align-items: flex-start;
+   width: auto;
+   margin: 0 auto;
+   position: relative;
   }
 
   div.post p.summary {
+    position: relative;
+    top: -80px;
+    left: 0px;
   }
 
   
