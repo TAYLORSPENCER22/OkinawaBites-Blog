@@ -316,6 +316,7 @@ div.post p.info a.author {
 
 /* article summary on home page */
 div.post p.summary {
+  /* style */
   color: #F6F6F6;
   font-family: Epilogue;
   font-size: 12px;
@@ -323,6 +324,7 @@ div.post p.summary {
   font-weight: 400;
   line-height: 14px;
 
+  /* position */
   height: auto; 
   position: absolute;
   top: 120px; 
