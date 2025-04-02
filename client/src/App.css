@@ -234,7 +234,7 @@ nav svg {
 }
 
 div.post { 
-  display: flex;
+  display: flex; 
   flex-direction: row;
   flex-wrap: wrap;
   padding: 30px;
@@ -245,7 +245,7 @@ div.post {
   background: #2A2122;
   width: 100%;
   max-width:650px;
-  height: 300px;
+  height: 290px;
   position: relative;
 }
 .texts {
@@ -260,8 +260,9 @@ div.post {
 div.post img {
   display: block;
   max-width: 200px;
+  width: 100%;
   height: auto;
-  border-radius: 15px;
+  border-radius: 10px;
   height: auto;
   padding: 0;
 }
@@ -274,8 +275,6 @@ a {
 h2.titleSummary {
   text-decoration: none;
   color: #F6F6F6;
-  width: 100%;
-  max-width:350px;
   height: 75px;
   align-self: flex-start;
   position: absolute;
@@ -527,6 +526,8 @@ button svg {
   }
 
   div.post {
+    flex-direction: column;
+    
   }
 
   h2.titleSummary {
