@@ -536,9 +536,14 @@ button svg {
 
   div.post {
   flex-direction: column;
+  border-radius: 25px;
   flex-wrap: nowrap;
-  height: 375px;
+  max-height: 500px;
+  height: 100%;
   position: relative;
+  margin: auto;
+  padding: 10px;
+  gap:10px;
   }
 
   h2.titleSummary {
@@ -547,33 +552,39 @@ button svg {
     text-align: center;
     font-size: 1.2em;
     height: auto;
-    max-height: 30px;
-    top:-10px;
+    max-height: 50px;
+    top:0px;
     }
 
   div.post img {
   display: flex;
-   max-width: 80%;
+   max-width: 90%;
    align-items: flex-start;
    width: auto;
    margin: 0 auto;
    position: relative;
+   padding-top: 5px;
   }
 
   div.post p.summary {
     position: relative;
-    top: -15px;
+    top: 0px;
     bottom: auto;
     left: auto;
     margin: auto;
-    max-width: 83%;
+    text-align: justify;
+    max-width: 90%;
+    height: 60px;
   }
 
-  
-
   div.post p.info {
-    bottom: -80px;
-    right: 20px;
+    position: relative;
+    align-content: end;
+    top: 93%;
+    right: auto;
+    padding: auto;
+    width: 100%;
+    margin: 0 auto;
   }
 
   /* //hide created time in mobile  */
