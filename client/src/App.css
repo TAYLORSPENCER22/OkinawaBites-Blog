@@ -554,6 +554,7 @@ button svg {
     height: auto;
     max-height: 50px;
     top:0px;
+    padding: 0 5px 0 5px;
     }
 
   div.post img {
