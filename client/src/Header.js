@@ -32,8 +32,8 @@ export default function Header() {
 
     return (
         <header>
-        <Link to="/" className="logo">OkinawaBites</Link>
         <nav>
+        <Link to="/" className="logo">OkinawaBites</Link>
           {username && (
             <>
               <button onClick={logout}> <svg xmlns="http://www.w3.org/2000/svg" 

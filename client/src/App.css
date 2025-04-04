@@ -92,18 +92,29 @@ main {
 }
 
 /* header edits  */
-header {
+nav {
   display: flex;
+  height: 140px;
   justify-content: space-between;
-  margin-top: 20px;
-  margin-bottom: 50px;
+  gap: 15px;
+  margin: auto;
   align-items: center;
   /* position: relative;
   left: 100px; */
 
 }
 
-header a {
+/* header nav {
+  display:flex;
+  gap: 15px;
+  flex-grow: 1;
+  text-align: right;
+  color: #F6F6F6;
+  justify-content: center;
+  
+} */
+
+nav a {
   text-decoration: none;
   flex-grow: 0;
   color: #F6F6F6;
@@ -115,7 +126,7 @@ header a {
   align-items:center;
   background: #F6E4E3;
   color: #2A2122;
-  padding-right: 11px;
+  padding: 3.5px 11px 3.5px 1px;
   border-radius: 10px;
   outline: 2px solid #2A2122;
   outline-offset: 0px;
@@ -162,22 +173,13 @@ header a.logo {
 
 }
 
-header nav {
-  display:flex;
-  gap: 15px;
-  flex-grow: 1;
-  text-align: right;
-  color: #F6F6F6;
-  justify-content: center;
-  
-}
 
 /* create new post button */
 .createNewPost {
   display: flex;
   align-items: center;
   background: #2A2122 ;
-  padding-right: 12px;
+  padding: 3.5px 11px 3.5px 1px;
   border-radius: 10px;
   outline: 2px solid #F6F6F6;
   outline-offset: 0px;
@@ -228,7 +230,7 @@ nav svg {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 100px auto;
+  margin: auto auto;
   width: 80%;
   gap: 20px;
 }
