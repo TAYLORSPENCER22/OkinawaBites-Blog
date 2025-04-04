@@ -12,6 +12,7 @@ main {
   min-width: 100vw;
   display: flex;
   flex-direction: column;
+  padding-bottom: 50px;
 }
 
 
@@ -95,31 +96,14 @@ main {
 nav {
   display: flex;
   height: 140px;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 15px;
-  margin: auto;
+  margin: auto 20px auto 20px;
   align-items: center;
-  /* position: relative;
-  left: 100px; */
-
+  position: relative;
+ 
 }
 
-/* header nav {
-  display:flex;
-  gap: 15px;
-  flex-grow: 1;
-  text-align: right;
-  color: #F6F6F6;
-  justify-content: center;
-  
-} */
-
-nav a {
-  text-decoration: none;
-  flex-grow: 0;
-  color: #F6F6F6;
-  
-}
 
 .loginHeader {
   display: flex;
@@ -161,16 +145,21 @@ nav a {
   outline-offset: -1px;
 }
 
+nav a {
+  text-decoration: none;
+  color: #F6F6F6;
+  
+}
 
-
-
-header a.logo {
+nav a.logo {
+  display: flex;
   font-weight: bold;
   font-size: 2rem;
-  flex-grow: 4;
   text-align: center;
-  justify-content: center;
-
+  justify-self: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%); 
 }
 
 
@@ -207,8 +196,7 @@ nav button {
     border-radius: 10px;
     font-size: 16px;
     cursor: pointer;
-    /* border: solid 2px #2A2122; */
-    outline: 2px solid #2A2122;
+    outline: 2px solid #2A2122; 
     outline-offset: 0px;
 }
 
@@ -231,8 +219,8 @@ nav svg {
   align-items: center;
   justify-content: center;
   margin: auto auto;
-  width: 80%;
-  gap: 20px;
+  width: 90%;
+  gap: 30px;
 }
 
 div.post { 
@@ -246,8 +234,8 @@ div.post {
   border: 4px solid #D7E3F1;
   background: #2A2122;
   width: 100%;
-  max-width:650px;
-  height: 290px;
+  max-width:728px;
+  height: 340px;
   position: relative;
 }
 .texts {
@@ -406,6 +394,7 @@ form.register input, form.login input {
   border-radius: 8px;
   padding: 3px 17px;
   border: 1px solid #F6E4E3;
+  cursor: pointer;
 }
 
 
