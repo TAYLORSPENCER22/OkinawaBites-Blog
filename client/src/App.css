@@ -93,6 +93,10 @@ main {
 }
 
 /* header edits  */
+
+nav.responsiveNavBar {
+  display: none;
+}
 nav {
   display: flex;
   height: 140px;
@@ -101,7 +105,6 @@ nav {
   margin: auto 20px auto 20px;
   align-items: center;
   position: relative;
- 
 }
 
 
@@ -211,6 +214,10 @@ nav svg {
   height: 20px;
 }
 
+.navNewLogo {
+  display: none;
+}
+
 /* home blog posts  */
 
 .postCard {
@@ -220,7 +227,7 @@ nav svg {
   justify-content: center;
   margin: auto auto;
   width: 90%;
-  gap: 30px;
+  gap: 20px;
 }
 
 div.post { 
@@ -234,8 +241,8 @@ div.post {
   border: 4px solid #D7E3F1;
   background: #2A2122;
   width: 100%;
-  max-width:728px;
-  height: 340px;
+  max-width:650px;
+  height: 290px;
   position: relative;
 }
 .texts {
@@ -514,13 +521,61 @@ button svg {
   padding-right: 3px;
 }
 
+/* nav bar break  */
+@media screen and (max-width: 768px) { 
+  
+  /* hide the regular nav bar */
+  nav.regularNav {
+    display: none;
+  }
+
+
+  /* mobile / smaller screen nav bar */
+  nav.responsiveNavBar {
+    position: fixed;
+    padding-top: 140px;
+    top: 0;
+    right: 0;
+    align-items: flex-start;
+    height: 100vh;
+    width: 200px;
+    z-index: 999;
+    background-color: #847E2A;
+    box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1) ;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+  }
+
+
+    .navNewLogo {
+    text-decoration: none;
+    color: #F6F6F6;
+    height: 140px;
+    margin: auto 20px auto 20px;
+    display: flex;
+    font-weight: bold;
+    font-size: 2rem;
+    text-align: center;
+    justify-self: center;
+    align-items: center;
+    position: absolute;
+    left: 47.5%;
+    transform: translateX(-50%); 
+    }
+
+
+  .postCard {
+    margin-top: 140px;
+  }
+}
+
 
 /* home page responsive for phones */
 @media screen and (max-width: 600px) {
 
-  body {
-   
-  }
+ 
   div.postCard {
     width: 80%;
   }
@@ -591,10 +646,4 @@ button svg {
 
 }
 
-@media screen and (max-width: 670px) {
-  
-  .postCard {
-  }
-
-}
 
