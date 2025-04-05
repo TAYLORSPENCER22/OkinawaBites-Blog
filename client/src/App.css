@@ -556,18 +556,20 @@ button svg {
     position: absolute;
     top: 10px;
     right: 12px;
+    cursor: pointer;
   }
   .exitBtn {
     position: absolute;
-    height: 30px;
-    width: 30px;
+    height: 38px;
+    width: 38px;
     color: #F6F6F6;
-    background-color: #2A2122;
-    top: 7px;
-    right: 5px;
+    /* background-color: #2A2122; */
+    top: 10px;
+    right: 9px;
     margin: auto;
     padding: 0;
     border-radius: 5px;
+    cursor: pointer;
 
   }
 
