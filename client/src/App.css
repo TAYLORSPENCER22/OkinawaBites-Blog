@@ -34,6 +34,13 @@ main {
 .post-page {
   background-color: #2A2122 ;
   min-height: 100vh;
+  min-width: 100vw;
+  margin: 0;
+}
+
+div.app-container.post-page {
+  padding-top: 140px;
+
 }
 
 .edit-page {
@@ -422,7 +429,7 @@ div.post-page {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: 140px auto auto auto;
+  margin: auto auto auto auto;
 
 }
 

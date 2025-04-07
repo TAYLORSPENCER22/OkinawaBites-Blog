@@ -76,9 +76,9 @@ export default function Header() {
 
 {/* separate navBar for smaller / mobile views */}
        
-       <Link to="/" className="navNewLogo">OkinawaBites</Link>
+      
        <svg onClick={showSideBar} className="listBtn" xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="#F6F6F6" viewBox="0 0 256 256"><path d="M224,128a8,8,0,0,1-8,8H40a8,8,0,0,1,0-16H216A8,8,0,0,1,224,128ZM40,72H216a8,8,0,0,0,0-16H40a8,8,0,0,0,0,16ZM216,184H40a8,8,0,0,0,0,16H216a8,8,0,0,0,0-16Z"></path></svg>
-       
+       <Link to="/" className="navNewLogo">OkinawaBites</Link>
         <nav className="responsiveNavBar" style={{ display: sidebarVisible ? 'flex' : 'none' }}>
         <svg className="exitBtn" onClick={() => setSideBarVisible(false)} xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="#F6F6F6" viewBox="0 0 256 256"><path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32Zm0,176H48V48H208V208ZM165.66,101.66,139.31,128l26.35,26.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32Z"></path></svg>
           {username && (
