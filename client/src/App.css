@@ -101,8 +101,14 @@ div.app-container.post-page {
 
 /* header edits  */
 
+
 nav.responsiveNavBar, .listBtn {
   display: none;
+}
+
+nav.responsiveNavBar.show {
+  display: flex;
+  flex-direction: column;
 }
 nav {
   display: flex;
@@ -529,6 +535,12 @@ a svg {
 button svg {
   height: 12px;
   padding-right: 3px;
+}
+
+@media (min-width: 768px) {
+  nav.responsiveNavBar {
+    display: none !important;
+  }
 }
 
 /* nav bar break  */
