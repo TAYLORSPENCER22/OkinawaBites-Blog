@@ -5,6 +5,7 @@
   font-style: normal;
   margin: 0;
   padding: 0;
+  
 }
 
 main {
@@ -27,8 +28,16 @@ main {
   background-color: #847E2A;
 }
 
+.login header {
+  height: 140px;
+}
+
 .register {
   background-color: #847E2A;
+}
+
+.register header {
+  height: 140px;
 }
 
 .post-page {
@@ -38,9 +47,9 @@ main {
   margin: 0;
 }
 
-div.app-container.post-page {
-  padding-top: 140px;
-
+.post-page header {
+  height: 140px;
+ width: 100vw;
 }
 
 .edit-page {
@@ -48,10 +57,22 @@ div.app-container.post-page {
   min-height: 100vh;
 }
 
+.edit-page header {
+  height: 140px;
+}
+
+.edit-page header nav a.ogOB {
+  color: #2A2122;
+}
+
 .create { 
   background-color: #F6F6F6;
   min-height: 100vh;
   display: flex;
+}
+
+.create header {
+  height: 140px;
 }
 
 .create header a.logo {
@@ -459,6 +480,12 @@ div.post-page a{
   color: #F6F6F6;
 }
 
+.app-container.post-page nav.regularNav .loginHeader {
+  color: #2A2122;
+}
+
+
+
 div.post-page h1 {
   text-align: center;
   margin: 10px 0 5px;
@@ -582,6 +609,10 @@ button svg {
     cursor: pointer;
   }
 
+  .edit-page .listBtn {
+    fill:#2A2122;
+  }
+
   .listBtn:hover {
    
   }
@@ -617,6 +648,9 @@ button svg {
     transform: translateX(-50%); 
     }
 
+    .edit-page .navNewLogo {
+      color: #2A2122;
+    }
 
   .postCard {
     margin-top: 140px;
