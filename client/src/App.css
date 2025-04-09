@@ -613,6 +613,10 @@ button svg {
     fill:#2A2122;
   }
 
+  .create .listBtn {
+    fill:#2A2122;
+  }
+
   .listBtn:hover {
    
   }
@@ -649,6 +653,10 @@ button svg {
     }
 
     .edit-page .navNewLogo {
+      color: #2A2122;
+    }
+
+    .create .navNewLogo {
       color: #2A2122;
     }
 
