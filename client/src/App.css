@@ -456,15 +456,18 @@ div.post-page {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin: auto auto auto auto;
+  margin: auto;
+  padding: auto;
+  width: 100vw;
+  gap: 5px;
 
 }
 
 div.post-page div.image{
-  max-height: 300px;
-  height: auto;
+  max-height: auto;
+  max-width: 700px;
   display: flex;
-  margin: 20px 100px;
+  margin: 20px 50px;
   
 }
 
@@ -488,7 +491,7 @@ div.post-page a{
 
 div.post-page h1 {
   text-align: center;
-  margin: 10px 0 5px;
+  margin: auto 30px;
   color: #F6F6F6;
 
 }
@@ -533,13 +536,15 @@ div.post-page div.author svg {
 
 div.post-page div.content p{
   line-height: 1.6rem;
-  margin: 10px 150px;
+  margin: 0 auto;
+  padding: 0 20px;
+  max-width: 700px;
   color: #F6F6F6;
 }
 
 div.edit-row{
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: auto;
 
 }
 
