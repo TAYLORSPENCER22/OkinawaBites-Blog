@@ -44,6 +44,7 @@ export default function Header() {
         <header>
         <nav className="regularNav">
         <Link to="/" className="logo ogOB">OkinawaBites</Link>
+        <button>About</button>
         
           {username && (
             <>
@@ -108,7 +109,6 @@ export default function Header() {
               
             </>
           )}
-         
         </nav>
       </header>
 
