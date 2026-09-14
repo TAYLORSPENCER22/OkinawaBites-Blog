@@ -115,8 +115,6 @@ export default function LocationMap() {
 
     return (
         <div className="map-section">
-            <PlaceSearch placeholder="Search to add a pin" onSelect={handleSearchSelect} />
-
             {showAuthPrompt && (
                 <div className="map-auth-prompt">
                     <p>You need an account to add a pin.</p>
@@ -146,6 +144,9 @@ export default function LocationMap() {
             )}
 
             <div className="map-container">
+                <div className="map-search-overlay">
+                    <PlaceSearch placeholder="Search to add a pin" onSelect={handleSearchSelect} />
+                </div>
                 <Map
                     mapboxAccessToken={MAPBOX_TOKEN}
                     initialViewState={INITIAL_VIEW}
