@@ -51,6 +51,7 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
     const [newComment, setNewComment] = useState('');
     const [postingComment, setPostingComment] = useState(false);
     const [endorsing, setEndorsing] = useState(false);
+    const [actionError, setActionError] = useState('');
 
     const loggedIn = Boolean(userInfo?.id);
     const isEndorsed = Boolean(duplicateLocation?.endorsedBy?.includes(userInfo?.id));
@@ -98,17 +99,27 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
 
     function fetchComments(locationId) {
         setCommentsLoading(true);
+        setActionError('');
         fetch(`http://localhost:4000/locations/${locationId}/comments`)
-            .then(res => res.json())
+            .then(res => {
+                if (!res.ok) throw new Error(`Server returned ${res.status}`);
+                return res.json();
+            })
             .then(data => {
                 setComments(data);
                 setCommentsLoading(false);
+            })
+            .catch(err => {
+                console.error('Failed to load comments:', err);
+                setCommentsLoading(false);
+                setActionError("Couldn't load comments — is the API server running the latest code?");
             });
     }
 
     function openExistingSpot(location) {
         setDuplicateLocation(location);
         setNewComment('');
+        setActionError('');
         fetchComments(location._id);
         openLocation(location);
     }
@@ -116,6 +127,7 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
     function closeDuplicatePanel() {
         setDuplicateLocation(null);
         setComments([]);
+        setActionError('');
     }
 
     function switchToFullPost() {
@@ -134,29 +146,45 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
     async function toggleEndorse() {
         if (!duplicateLocation) return;
         setEndorsing(true);
-        const res = await fetch(`http://localhost:4000/locations/${duplicateLocation._id}/endorse`, {
-            method: 'POST',
-            credentials: 'include',
-        });
-        const updated = await res.json();
-        setEndorsing(false);
-        setDuplicateLocation(updated);
-        setLocations(prev => prev.map(l => l._id === updated._id ? updated : l));
+        setActionError('');
+        try {
+            const res = await fetch(`http://localhost:4000/locations/${duplicateLocation._id}/endorse`, {
+                method: 'POST',
+                credentials: 'include',
+            });
+            if (!res.ok) throw new Error(`Server returned ${res.status}`);
+            const updated = await res.json();
+            setDuplicateLocation(updated);
+            setLocations(prev => prev.map(l => l._id === updated._id ? updated : l));
+        } catch (err) {
+            console.error('Failed to toggle endorse:', err);
+            setActionError("Couldn't save that — is the API server running the latest code?");
+        } finally {
+            setEndorsing(false);
+        }
     }
 
     async function submitComment() {
         if (!newComment.trim() || !duplicateLocation) return;
         setPostingComment(true);
-        const res = await fetch(`http://localhost:4000/locations/${duplicateLocation._id}/comments`, {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            credentials: 'include',
-            body: JSON.stringify({ text: newComment.trim() }),
-        });
-        const comment = await res.json();
-        setComments(prev => [...prev, comment]);
-        setNewComment('');
-        setPostingComment(false);
+        setActionError('');
+        try {
+            const res = await fetch(`http://localhost:4000/locations/${duplicateLocation._id}/comments`, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                credentials: 'include',
+                body: JSON.stringify({ text: newComment.trim() }),
+            });
+            if (!res.ok) throw new Error(`Server returned ${res.status}`);
+            const comment = await res.json();
+            setComments(prev => [...prev, comment]);
+            setNewComment('');
+        } catch (err) {
+            console.error('Failed to post comment:', err);
+            setActionError("Couldn't post that — is the API server running the latest code?");
+        } finally {
+            setPostingComment(false);
+        }
     }
 
     async function submitPendingPlace() {
@@ -277,6 +305,7 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
                             <button type="button" className="map-overlay-close" onClick={closeDuplicatePanel} aria-label="Close">&times;</button>
                             <h3>📍 {duplicateLocation.name}</h3>
                             <p className="map-duplicate-spot-hint">This spot's already on the map!</p>
+                            {actionError && <p className="map-action-error">{actionError}</p>}
 
                             <button
                                 type="button"
