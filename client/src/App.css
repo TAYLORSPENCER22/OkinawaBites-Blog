@@ -40,6 +40,53 @@ main {
   height: 140px;
 }
 
+.about {
+  background-color: #847E2A;
+  min-height: 100vh;
+}
+
+.about header {
+  height: 140px;
+}
+
+.about-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 30px 20px 60px 20px;
+  color: #F6F6F6;
+  text-align: center;
+}
+
+.about-container h1 {
+  margin-bottom: 24px;
+  font-size: 2.2rem;
+}
+
+.about-container p {
+  font-family: Epilogue;
+  font-size: 16px;
+  line-height: 1.6;
+  text-align: left;
+  margin-bottom: 16px;
+}
+
+.about-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+.about-gallery img {
+  width: 100%;
+  max-width: 250px;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 16px;
+  border: 3px solid #2A2122;
+}
+
 .post-page {
   background-color: #2A2122 ;
   min-height: 100vh;
@@ -180,6 +227,22 @@ nav {
   position: relative;
 }
 
+
+.aboutHeader {
+  display: flex;
+  align-items: center;
+  background: #F6E4E3;
+  color: #2A2122;
+  padding: 3.5px 11px;
+  border-radius: 10px;
+  outline: 2px solid #2A2122;
+  outline-offset: 0px;
+}
+
+.aboutHeader:hover {
+  background: #F6F6F6;
+  outline-offset: -1px;
+}
 
 .loginHeader {
   display: flex;
@@ -674,6 +737,10 @@ button svg {
     }
 
   .postCard {
+    margin-top: 140px;
+  }
+
+  .about-container {
     margin-top: 140px;
   }
 }

@@ -44,8 +44,8 @@ export default function Header() {
         <header>
         <nav className="regularNav">
         <Link to="/" className="logo ogOB">OkinawaBites</Link>
-        <button>About</button>
-        
+        <Link to="/about" className="aboutHeader">About</Link>
+
           {username && (
             <>
               <button onClick={logout}> <svg xmlns="http://www.w3.org/2000/svg" 
@@ -83,6 +83,7 @@ export default function Header() {
        <nav className={`responsiveNavBar ${sidebarVisible ? 'show' : ''}`}>
 
         <svg className="exitBtn" onClick={() => setSideBarVisible(false)} xmlns="http://www.w3.org/2000/svg" width="60" height="60" fill="#F6F6F6" viewBox="0 0 256 256"><path d="M208,32H48A16,16,0,0,0,32,48V208a16,16,0,0,0,16,16H208a16,16,0,0,0,16-16V48A16,16,0,0,0,208,32Zm0,176H48V48H208V208ZM165.66,101.66,139.31,128l26.35,26.34a8,8,0,0,1-11.32,11.32L128,139.31l-26.34,26.35a8,8,0,0,1-11.32-11.32L116.69,128,90.34,101.66a8,8,0,0,1,11.32-11.32L128,116.69l26.34-26.35a8,8,0,0,1,11.32,11.32Z"></path></svg>
+          <Link to="/about" className="aboutHeader" onClick={() => setSideBarVisible(false)}>About</Link>
           {username && (
             <>
               <button className="nav.new" onClick={logout}> <svg xmlns="http://www.w3.org/2000/svg" 
