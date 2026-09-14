@@ -708,45 +708,55 @@ main {
   display: flex;
   align-items: baseline;
   gap: 8px;
+  flex-wrap: wrap;
   font-family: Epilogue;
   font-size: 13px;
 }
 
-.location-comment-reactions {
+.location-comment-owner-actions {
   display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  padding-left: 4px;
+  gap: 8px;
+  margin-left: auto;
 }
 
-.reaction-btn {
+.location-comment-owner-actions button {
+  background: transparent;
+  border: none;
+  font-family: Epilogue;
+  font-size: 11px;
+  color: #A73A5E;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 0;
+}
+
+.location-comment-edit {
   display: flex;
-  align-items: center;
-  gap: 3px;
-  font-size: 13px;
-  padding: 2px 7px;
+  gap: 6px;
+}
+
+.location-comment-edit input {
+  flex: 1;
+  padding: 5px 10px;
   border-radius: 20px;
-  border: 1px solid rgba(42, 33, 34, 0.2);
+  border: 1px solid #2A2122;
+  font-family: Epilogue;
+  font-size: 13px;
+}
+
+.location-comment-edit button {
+  font-family: Epilogue;
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  border: 1px solid #2A2122;
   background: transparent;
   cursor: pointer;
-  transition: transform 0.1s ease, background 0.15s ease;
 }
 
-.reaction-btn:hover {
-  transform: scale(1.15);
-  background: rgba(42, 33, 34, 0.06);
-}
-
-.reaction-btn.active {
-  background: rgba(167, 58, 94, 0.15);
-  border-color: #A73A5E;
-}
-
-.reaction-count {
-  font-family: Epilogue;
-  font-size: 10px;
-  font-weight: bold;
-  color: #2A2122;
+.location-comment-edit button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .map-comment-author {

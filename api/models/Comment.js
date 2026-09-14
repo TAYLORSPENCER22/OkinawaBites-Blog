@@ -6,10 +6,6 @@ const CommentSchema = new Schema({
     location: {type: Schema.Types.ObjectId, ref: 'Location', required: true},
     author: {type: Schema.Types.ObjectId, ref: 'User', required: true},
     text: {type: String, required: true},
-    reactions: [{
-        emoji: String,
-        user: {type: Schema.Types.ObjectId, ref: 'User'},
-    }],
 }, {
     timestamps: true,
 });

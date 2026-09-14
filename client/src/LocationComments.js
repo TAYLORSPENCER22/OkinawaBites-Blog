@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 import { getAuthorColor } from "./authorColor";
 
-const REACTION_EMOJIS = ['🍜', '🍣', '🍱', '😋', '🔥', '❤️', '🎉'];
-
 // A location's comment thread — shown both on the map's duplicate-spot
 // panel and at the bottom of an individual post tied to that location.
 export default function LocationComments({ locationId, userId }) {
@@ -11,6 +9,9 @@ export default function LocationComments({ locationId, userId }) {
     const [newComment, setNewComment] = useState('');
     const [posting, setPosting] = useState(false);
     const [error, setError] = useState('');
+    const [editingId, setEditingId] = useState(null);
+    const [editingText, setEditingText] = useState('');
+    const [savingEdit, setSavingEdit] = useState(false);
 
     useEffect(() => {
         if (!locationId) return;
@@ -55,32 +56,52 @@ export default function LocationComments({ locationId, userId }) {
         }
     }
 
-    async function toggleReaction(commentId, emoji) {
+    function startEditing(comment) {
+        setEditingId(comment._id);
+        setEditingText(comment.text);
+    }
+
+    function cancelEditing() {
+        setEditingId(null);
+        setEditingText('');
+    }
+
+    async function saveEdit(commentId) {
+        if (!editingText.trim()) return;
+        setSavingEdit(true);
+        setError('');
         try {
-            const res = await fetch(`http://localhost:4000/comments/${commentId}/react`, {
-                method: 'POST',
+            const res = await fetch(`http://localhost:4000/comments/${commentId}`, {
+                method: 'PUT',
                 headers: {'Content-Type': 'application/json'},
                 credentials: 'include',
-                body: JSON.stringify({ emoji }),
+                body: JSON.stringify({ text: editingText.trim() }),
             });
             if (!res.ok) throw new Error(`Server returned ${res.status}`);
             const updated = await res.json();
             setComments(prev => prev.map(c => c._id === updated._id ? updated : c));
+            cancelEditing();
         } catch (err) {
-            console.error('Failed to react:', err);
+            console.error('Failed to edit comment:', err);
+            setError("Couldn't save that edit.");
+        } finally {
+            setSavingEdit(false);
         }
     }
 
-    function reactionCounts(comment) {
-        const counts = {};
-        (comment.reactions || []).forEach(r => {
-            counts[r.emoji] = (counts[r.emoji] || 0) + 1;
-        });
-        return counts;
-    }
-
-    function userReacted(comment, emoji) {
-        return (comment.reactions || []).some(r => r.emoji === emoji && r.user === userId);
+    async function deleteComment(commentId) {
+        setError('');
+        try {
+            const res = await fetch(`http://localhost:4000/comments/${commentId}`, {
+                method: 'DELETE',
+                credentials: 'include',
+            });
+            if (!res.ok) throw new Error(`Server returned ${res.status}`);
+            setComments(prev => prev.filter(c => c._id !== commentId));
+        } catch (err) {
+            console.error('Failed to delete comment:', err);
+            setError("Couldn't delete that comment.");
+        }
     }
 
     return (
@@ -92,30 +113,36 @@ export default function LocationComments({ locationId, userId }) {
             )}
             {!loading && comments.map(c => (
                 <div key={c._id} className="location-comment">
-                    <div className="location-comment-body">
-                        <span
-                            className="map-comment-author"
-                            style={{backgroundColor: getAuthorColor(c.author?.username)}}
-                        >
-                            {c.author?.username}
-                        </span>
-                        <span className="map-comment-text">{c.text}</span>
-                    </div>
-                    <div className="location-comment-reactions">
-                        {REACTION_EMOJIS.map(emoji => {
-                            const count = reactionCounts(c)[emoji];
-                            return (
-                                <button
-                                    key={emoji}
-                                    type="button"
-                                    className={`reaction-btn ${userReacted(c, emoji) ? 'active' : ''}`}
-                                    onClick={() => toggleReaction(c._id, emoji)}
-                                >
-                                    {emoji}{count > 0 && <span className="reaction-count">{count}</span>}
-                                </button>
-                            );
-                        })}
-                    </div>
+                    {editingId === c._id ? (
+                        <div className="location-comment-edit">
+                            <input
+                                type="text"
+                                value={editingText}
+                                onChange={ev => setEditingText(ev.target.value)}
+                                onKeyDown={ev => ev.key === 'Enter' && saveEdit(c._id)}
+                            />
+                            <button type="button" onClick={() => saveEdit(c._id)} disabled={!editingText.trim() || savingEdit}>
+                                {savingEdit ? '…' : 'Save'}
+                            </button>
+                            <button type="button" onClick={cancelEditing} disabled={savingEdit}>Cancel</button>
+                        </div>
+                    ) : (
+                        <div className="location-comment-body">
+                            <span
+                                className="map-comment-author"
+                                style={{backgroundColor: getAuthorColor(c.author?.username)}}
+                            >
+                                {c.author?.username}
+                            </span>
+                            <span className="map-comment-text">{c.text}</span>
+                            {c.author?._id === userId && (
+                                <span className="location-comment-owner-actions">
+                                    <button type="button" onClick={() => startEditing(c)}>Edit</button>
+                                    <button type="button" onClick={() => deleteComment(c._id)}>Delete</button>
+                                </span>
+                            )}
+                        </div>
+                    )}
                 </div>
             ))}
 

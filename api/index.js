@@ -160,27 +160,40 @@ app.post('/locations/:id/comments', async (req,res) => {
     });
 });
 
-//toggle the logged-in user's emoji reaction on a comment
-app.post('/comments/:id/react', async (req,res) => {
+//edit a comment (author only)
+app.put('/comments/:id', async (req,res) => {
     const {token} = req.cookies;
     jwt.verify(token, secret, {}, async (err, info) => {
         if (err) {
             return res.status(403).json({ error: "Invalid token" });
         }
         const {id} = req.params;
-        const {emoji} = req.body;
+        const {text} = req.body;
         const commentDoc = await Comment.findById(id);
-        const existingIndex = commentDoc.reactions.findIndex(
-            r => r.emoji === emoji && r.user.toString() === info.id
-        );
-        if (existingIndex >= 0) {
-            commentDoc.reactions.splice(existingIndex, 1);
-        } else {
-            commentDoc.reactions.push({emoji, user: info.id});
+        if (!commentDoc || commentDoc.author.toString() !== info.id) {
+            return res.status(400).json('you are not the author');
         }
+        commentDoc.text = text;
         await commentDoc.save();
         await commentDoc.populate('author', ['username']);
         res.json(commentDoc);
+    });
+});
+
+//delete a comment (author only)
+app.delete('/comments/:id', async (req,res) => {
+    const {token} = req.cookies;
+    jwt.verify(token, secret, {}, async (err, info) => {
+        if (err) {
+            return res.status(403).json({ error: "Invalid token" });
+        }
+        const {id} = req.params;
+        const commentDoc = await Comment.findById(id);
+        if (!commentDoc || commentDoc.author.toString() !== info.id) {
+            return res.status(400).json('you are not the author');
+        }
+        await Comment.findByIdAndDelete(id);
+        res.json({success: true});
     });
 });
 
