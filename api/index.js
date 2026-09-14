@@ -160,6 +160,30 @@ app.post('/locations/:id/comments', async (req,res) => {
     });
 });
 
+//toggle the logged-in user's emoji reaction on a comment
+app.post('/comments/:id/react', async (req,res) => {
+    const {token} = req.cookies;
+    jwt.verify(token, secret, {}, async (err, info) => {
+        if (err) {
+            return res.status(403).json({ error: "Invalid token" });
+        }
+        const {id} = req.params;
+        const {emoji} = req.body;
+        const commentDoc = await Comment.findById(id);
+        const existingIndex = commentDoc.reactions.findIndex(
+            r => r.emoji === emoji && r.user.toString() === info.id
+        );
+        if (existingIndex >= 0) {
+            commentDoc.reactions.splice(existingIndex, 1);
+        } else {
+            commentDoc.reactions.push({emoji, user: info.id});
+        }
+        await commentDoc.save();
+        await commentDoc.populate('author', ['username']);
+        res.json(commentDoc);
+    });
+});
+
 //create new blog post and rename uploaded file
 
 app.post('/post', uploadMiddleware.single('file'), async (req,res) => {

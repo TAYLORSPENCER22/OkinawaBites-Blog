@@ -3,6 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import { format } from "date-fns";
 import { UserContext } from "../UserContext";
 import { getAuthorColor } from "../authorColor";
+import LocationComments from "../LocationComments";
 
 export default function PostPage() {
     const [postInfo, setPostInfo] = useState(null);
@@ -62,6 +63,12 @@ export default function PostPage() {
                 </div>
             )}
             <div className="content" dangerouslySetInnerHTML={{ __html: postInfo.content || "" }} />
+            {postInfo.location && (
+                <div className="post-page-comments">
+                    <h2 className="post-page-comments-heading">💬 Comments about {postInfo.location.name}</h2>
+                    <LocationComments locationId={postInfo.location._id} userId={userInfo?.id} />
+                </div>
+            )}
         </div>
     );
 }

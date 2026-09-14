@@ -4,8 +4,8 @@ import { Link } from "react-router-dom";
 import "mapbox-gl/dist/mapbox-gl.css";
 import PlaceSearch from "./PlaceSearch";
 import ImageDropzone from "./ImageDropzone";
+import LocationComments from "./LocationComments";
 import { UserContext } from "./UserContext";
-import { getAuthorColor } from "./authorColor";
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 
@@ -46,10 +46,6 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
     const [saving, setSaving] = useState(false);
     const [hoverPin, setHoverPin] = useState(null);
     const [duplicateLocation, setDuplicateLocation] = useState(null);
-    const [comments, setComments] = useState([]);
-    const [commentsLoading, setCommentsLoading] = useState(false);
-    const [newComment, setNewComment] = useState('');
-    const [postingComment, setPostingComment] = useState(false);
     const [endorsing, setEndorsing] = useState(false);
     const [actionError, setActionError] = useState('');
 
@@ -97,36 +93,14 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
         setFiles(null);
     }
 
-    function fetchComments(locationId) {
-        setCommentsLoading(true);
-        setActionError('');
-        fetch(`http://localhost:4000/locations/${locationId}/comments`)
-            .then(res => {
-                if (!res.ok) throw new Error(`Server returned ${res.status}`);
-                return res.json();
-            })
-            .then(data => {
-                setComments(data);
-                setCommentsLoading(false);
-            })
-            .catch(err => {
-                console.error('Failed to load comments:', err);
-                setCommentsLoading(false);
-                setActionError("Couldn't load comments — is the API server running the latest code?");
-            });
-    }
-
     function openExistingSpot(location) {
         setDuplicateLocation(location);
-        setNewComment('');
         setActionError('');
-        fetchComments(location._id);
         openLocation(location);
     }
 
     function closeDuplicatePanel() {
         setDuplicateLocation(null);
-        setComments([]);
         setActionError('');
     }
 
@@ -161,29 +135,6 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
             setActionError("Couldn't save that — is the API server running the latest code?");
         } finally {
             setEndorsing(false);
-        }
-    }
-
-    async function submitComment() {
-        if (!newComment.trim() || !duplicateLocation) return;
-        setPostingComment(true);
-        setActionError('');
-        try {
-            const res = await fetch(`http://localhost:4000/locations/${duplicateLocation._id}/comments`, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                credentials: 'include',
-                body: JSON.stringify({ text: newComment.trim() }),
-            });
-            if (!res.ok) throw new Error(`Server returned ${res.status}`);
-            const comment = await res.json();
-            setComments(prev => [...prev, comment]);
-            setNewComment('');
-        } catch (err) {
-            console.error('Failed to post comment:', err);
-            setActionError("Couldn't post that — is the API server running the latest code?");
-        } finally {
-            setPostingComment(false);
         }
     }
 
@@ -316,36 +267,17 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
                                 👍 {isEndorsed ? 'Endorsed' : 'Endorse'} ({duplicateLocation.endorsedBy?.length || 0})
                             </button>
 
-                            <div className="map-comments">
-                                {commentsLoading && <p className="map-popup-loading">Loading comments…</p>}
-                                {!commentsLoading && comments.length === 0 && (
-                                    <p className="map-popup-empty">No comments yet — say something nice! 🌺</p>
-                                )}
-                                {!commentsLoading && comments.map(c => (
-                                    <div key={c._id} className="map-comment">
-                                        <span
-                                            className="map-comment-author"
-                                            style={{backgroundColor: getAuthorColor(c.author?.username)}}
-                                        >
-                                            {c.author?.username}
-                                        </span>
-                                        <span className="map-comment-text">{c.text}</span>
-                                    </div>
-                                ))}
-                            </div>
+                            {selectedPosts.length > 0 && (
+                                <div className="map-duplicate-spot-posts">
+                                    {selectedPosts.map(post => (
+                                        <Link key={post._id} to={`/post/${post._id}`} className="map-popup-post">
+                                            📖 {post.title}
+                                        </Link>
+                                    ))}
+                                </div>
+                            )}
 
-                            <div className="map-comment-form">
-                                <input
-                                    type="text"
-                                    placeholder="Add a comment…"
-                                    value={newComment}
-                                    onChange={ev => setNewComment(ev.target.value)}
-                                    onKeyDown={ev => ev.key === 'Enter' && submitComment()}
-                                />
-                                <button type="button" onClick={submitComment} disabled={!newComment.trim() || postingComment}>
-                                    {postingComment ? '…' : 'Post'}
-                                </button>
-                            </div>
+                            <LocationComments locationId={duplicateLocation._id} userId={userInfo?.id} />
 
                             <button type="button" className="map-write-post-btn" onClick={switchToFullPost}>
                                 ✍️ Write a full post instead

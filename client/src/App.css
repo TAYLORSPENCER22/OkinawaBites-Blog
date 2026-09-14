@@ -681,22 +681,72 @@ main {
   cursor: not-allowed;
 }
 
-.map-comments {
+.map-duplicate-spot-posts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.location-comments {
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  max-height: 160px;
+  gap: 10px;
+  max-height: 220px;
   overflow-y: auto;
   margin-bottom: 12px;
   padding-right: 4px;
 }
 
-.map-comment {
+.location-comment {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.location-comment-body {
   display: flex;
   align-items: baseline;
   gap: 8px;
   font-family: Epilogue;
   font-size: 13px;
+}
+
+.location-comment-reactions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding-left: 4px;
+}
+
+.reaction-btn {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 13px;
+  padding: 2px 7px;
+  border-radius: 20px;
+  border: 1px solid rgba(42, 33, 34, 0.2);
+  background: transparent;
+  cursor: pointer;
+  transition: transform 0.1s ease, background 0.15s ease;
+}
+
+.reaction-btn:hover {
+  transform: scale(1.15);
+  background: rgba(42, 33, 34, 0.06);
+}
+
+.reaction-btn.active {
+  background: rgba(167, 58, 94, 0.15);
+  border-color: #A73A5E;
+}
+
+.reaction-count {
+  font-family: Epilogue;
+  font-size: 10px;
+  font-weight: bold;
+  color: #2A2122;
 }
 
 .map-comment-author {
@@ -1354,6 +1404,23 @@ div.post-page div.content p{
   max-width: 700px;
   color: #F6F6F6;
 }
+
+.post-page-comments {
+  width: 100%;
+  max-width: 700px;
+  margin: 20px auto 0 auto;
+  padding: 20px;
+  border-radius: 20px;
+  background: #FFF9EF;
+  border: 3px solid #F6E4E3;
+}
+
+.post-page-comments-heading {
+  font-size: 1.1rem;
+  color: #2A2122;
+  margin: 0 0 12px 0;
+}
+
 /* edit  */
 div.edit-row{
   text-align: center;
