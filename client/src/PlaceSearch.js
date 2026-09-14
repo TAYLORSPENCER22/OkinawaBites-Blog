@@ -6,7 +6,8 @@ const PROXIMITY = "127.9,26.35";
 const OKINAWA_BBOX = "122.8,24.0,131.4,27.9";
 
 // onSelect receives { name, address, lat, lng }
-export default function PlaceSearch({ onSelect, placeholder }) {
+// onHoverResult (optional) receives { name, lat, lng } while hovering a result, or null when not
+export default function PlaceSearch({ onSelect, placeholder, onHoverResult }) {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
@@ -17,6 +18,7 @@ export default function PlaceSearch({ onSelect, placeholder }) {
             clearTimeout(debounceRef.current);
             setLoading(false);
             setResults([]);
+            onHoverResult?.(null);
             return;
         }
 
@@ -48,6 +50,7 @@ export default function PlaceSearch({ onSelect, placeholder }) {
         setQuery('');
         setResults([]);
         setLoading(false);
+        onHoverResult?.(null);
     }
 
     const showDropdown = loading || results.length > 0;
@@ -65,12 +68,20 @@ export default function PlaceSearch({ onSelect, placeholder }) {
                     {loading && (
                         <li className="place-search-loading">Searching Okinawa spots…</li>
                     )}
-                    {!loading && results.map(f => (
-                        <li key={f.properties.mapbox_id} onClick={() => handleSelect(f)}>
-                            <span className="place-search-name">{f.properties.name}</span>
-                            <span className="place-search-address">{f.properties.place_formatted}</span>
-                        </li>
-                    ))}
+                    {!loading && results.map(f => {
+                        const [lng, lat] = f.geometry.coordinates;
+                        return (
+                            <li
+                                key={f.properties.mapbox_id}
+                                onClick={() => handleSelect(f)}
+                                onMouseEnter={() => onHoverResult?.({ name: f.properties.name, lat, lng })}
+                                onMouseLeave={() => onHoverResult?.(null)}
+                            >
+                                <span className="place-search-name">{f.properties.name}</span>
+                                <span className="place-search-address">{f.properties.place_formatted}</span>
+                            </li>
+                        );
+                    })}
                 </ul>
             )}
         </div>

@@ -20,7 +20,7 @@ function escapeHtml(str) {
         .replace(/'/g, '&#039;');
 }
 
-export default function LocationMap() {
+export default function LocationMap({ onPostCreated, highlightedLocationId }) {
     const { userInfo } = useContext(UserContext);
     const [locations, setLocations] = useState([]);
     const [selected, setSelected] = useState(null);
@@ -30,6 +30,7 @@ export default function LocationMap() {
     const [note, setNote] = useState('');
     const [files, setFiles] = useState(null);
     const [saving, setSaving] = useState(false);
+    const [hoverPin, setHoverPin] = useState(null);
 
     const loggedIn = Boolean(userInfo?.id);
 
@@ -103,6 +104,7 @@ export default function LocationMap() {
         setLocations(prev => [...prev, locationDoc]);
         openLocation(locationDoc);
         cancelPendingPlace();
+        onPostCreated?.();
     }
 
     if (!MAPBOX_TOKEN) {
@@ -115,38 +117,50 @@ export default function LocationMap() {
 
     return (
         <div className="map-section">
-            {showAuthPrompt && (
-                <div className="map-auth-prompt">
-                    <p>You need an account to add a pin.</p>
-                    <Link to="/login" onClick={() => setShowAuthPrompt(false)}>Sign in</Link>
-                    <Link to="/register" onClick={() => setShowAuthPrompt(false)}>Register</Link>
-                    <button type="button" onClick={() => setShowAuthPrompt(false)} aria-label="Dismiss">&times;</button>
-                </div>
-            )}
-
-            {pendingPlace && (
-                <div className="map-add-pin">
-                    <h3>{pendingPlace.name}</h3>
-                    {pendingPlace.address && <p className="map-add-pin-address">{pendingPlace.address}</p>}
-                    <ImageDropzone onFilesSelected={setFiles} />
-                    <textarea
-                        placeholder="Add a note about this spot (optional)"
-                        value={note}
-                        onChange={ev => setNote(ev.target.value)}
-                    />
-                    <div className="map-add-pin-actions">
-                        <button type="button" onClick={cancelPendingPlace} disabled={saving}>Cancel</button>
-                        <button type="button" className="map-add-pin-save" onClick={submitPendingPlace} disabled={saving}>
-                            {saving ? 'Adding…' : 'Add pin'}
-                        </button>
-                    </div>
-                </div>
-            )}
-
             <div className="map-container">
                 <div className="map-search-overlay">
-                    <PlaceSearch placeholder="Search to add a pin" onSelect={handleSearchSelect} />
+                    <PlaceSearch
+                        placeholder="Search to add a pin"
+                        onSelect={handleSearchSelect}
+                        onHoverResult={setHoverPin}
+                    />
                 </div>
+
+                {showAuthPrompt && (
+                    <div className="map-overlay-backdrop" onClick={() => setShowAuthPrompt(false)}>
+                        <div className="map-auth-prompt" onClick={ev => ev.stopPropagation()}>
+                            <button type="button" className="map-overlay-close" onClick={() => setShowAuthPrompt(false)} aria-label="Close">&times;</button>
+                            <p>You need an account to add a pin.</p>
+                            <div className="map-auth-prompt-links">
+                                <Link to="/login" onClick={() => setShowAuthPrompt(false)}>Sign in</Link>
+                                <Link to="/register" onClick={() => setShowAuthPrompt(false)}>Register</Link>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {pendingPlace && (
+                    <div className="map-overlay-backdrop" onClick={cancelPendingPlace}>
+                        <div className="map-add-pin" onClick={ev => ev.stopPropagation()}>
+                            <button type="button" className="map-overlay-close" onClick={cancelPendingPlace} aria-label="Close">&times;</button>
+                            <h3>{pendingPlace.name}</h3>
+                            {pendingPlace.address && <p className="map-add-pin-address">{pendingPlace.address}</p>}
+                            <ImageDropzone onFilesSelected={setFiles} />
+                            <textarea
+                                placeholder="Add a note about this spot (optional)"
+                                value={note}
+                                onChange={ev => setNote(ev.target.value)}
+                            />
+                            <div className="map-add-pin-actions">
+                                <button type="button" onClick={cancelPendingPlace} disabled={saving}>Cancel</button>
+                                <button type="button" className="map-add-pin-save" onClick={submitPendingPlace} disabled={saving}>
+                                    {saving ? 'Adding…' : 'Add pin'}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
                 <Map
                     mapboxAccessToken={MAPBOX_TOKEN}
                     initialViewState={INITIAL_VIEW}
@@ -164,9 +178,18 @@ export default function LocationMap() {
                                 openLocation(loc);
                             }}
                         >
-                            <div className="map-pin" title={loc.name} />
+                            <div
+                                className={`map-pin ${loc._id === highlightedLocationId ? 'map-pin-highlighted' : ''}`}
+                                title={loc.name}
+                            />
                         </Marker>
                     ))}
+
+                    {hoverPin && (
+                        <Marker longitude={hoverPin.lng} latitude={hoverPin.lat} anchor="bottom">
+                            <div className="map-pin map-pin-preview" title={hoverPin.name} />
+                        </Marker>
+                    )}
 
                     {selected && (
                         <Popup

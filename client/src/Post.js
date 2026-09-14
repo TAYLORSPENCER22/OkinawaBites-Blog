@@ -2,10 +2,14 @@ import {format} from "date-fns";
 import {Link} from "react-router-dom";
 import {getAuthorColor} from "./authorColor";
 
-export default function Post({ _id,title, summary, cover, content, createdAt, author, location}) {
+export default function Post({ _id,title, summary, cover, content, createdAt, author, location, onHoverLocation}) {
     return (
 
-      <div className="post">
+      <div
+        className="post"
+        onMouseEnter={() => onHoverLocation?.(location?._id || null)}
+        onMouseLeave={() => onHoverLocation?.(null)}
+      >
           {cover && (
             <Link to = {`/post/${_id}`}>
             <img className="image" src={cover.startsWith('http') ? cover : 'http://localhost:4000/'+cover} alt=""/>

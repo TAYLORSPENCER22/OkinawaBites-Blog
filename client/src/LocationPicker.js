@@ -14,6 +14,7 @@ export default function LocationPicker({ value, onChange }) {
     const [newAddress, setNewAddress] = useState('');
     const [newPin, setNewPin] = useState(null);
     const [saving, setSaving] = useState(false);
+    const [hoverPin, setHoverPin] = useState(null);
 
     useEffect(() => {
         fetch('http://localhost:4000/locations')
@@ -69,6 +70,7 @@ export default function LocationPicker({ value, onChange }) {
                             setNewAddress(address);
                             setNewPin({ lat, lng });
                         }}
+                        onHoverResult={setHoverPin}
                     />
                     <input
                         type="text"
@@ -94,6 +96,11 @@ export default function LocationPicker({ value, onChange }) {
                                 {newPin && (
                                     <Marker longitude={newPin.lng} latitude={newPin.lat} anchor="bottom">
                                         <div className="map-pin" />
+                                    </Marker>
+                                )}
+                                {hoverPin && (
+                                    <Marker longitude={hoverPin.lng} latitude={hoverPin.lat} anchor="bottom">
+                                        <div className="map-pin map-pin-preview" title={hoverPin.name} />
                                     </Marker>
                                 )}
                             </Map>
