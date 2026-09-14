@@ -6,7 +6,7 @@ export default function Post({ _id,title, summary, cover, content, createdAt, au
       
       <div className="post">
           <Link to = {`/post/${_id}`}>
-          <img className="image" src={'http://localhost:4000/'+cover} alt=""/>
+          <img className="image" src={cover.startsWith('http') ? cover : 'http://localhost:4000/'+cover} alt=""/>
           </Link>
         
         <Link to = {`/post/${_id}`}>

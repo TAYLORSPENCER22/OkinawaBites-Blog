@@ -54,7 +54,7 @@ export default function PostPage() {
             )}
             {postInfo.cover && (
                 <div className="image">
-                    <img src={`http://localhost:4000/${postInfo.cover}`} alt="Post Cover" />
+                    <img src={postInfo.cover.startsWith('http') ? postInfo.cover : `http://localhost:4000/${postInfo.cover}`} alt="Post Cover" />
                 </div>
             )}
             <div className="content" dangerouslySetInnerHTML={{ __html: postInfo.content || "" }} />
