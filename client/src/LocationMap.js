@@ -5,11 +5,15 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import PlaceSearch from "./PlaceSearch";
 import ImageDropzone from "./ImageDropzone";
 import { UserContext } from "./UserContext";
+import { getAuthorColor } from "./authorColor";
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 
 // centered roughly over the main Okinawa island
 const INITIAL_VIEW = { longitude: 127.9, latitude: 26.35, zoom: 9.5 };
+
+// a search result within this many meters of an existing pin counts as the same spot
+const DUPLICATE_THRESHOLD_METERS = 60;
 
 function escapeHtml(str) {
     return str
@@ -18,6 +22,15 @@ function escapeHtml(str) {
         .replace(/>/g, '&gt;')
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#039;');
+}
+
+function distanceMeters(lat1, lng1, lat2, lng2) {
+    const R = 6371000;
+    const toRad = deg => (deg * Math.PI) / 180;
+    const dLat = toRad(lat2 - lat1);
+    const dLng = toRad(lng2 - lng1);
+    const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
 export default function LocationMap({ onPostCreated, highlightedLocationId }) {
@@ -32,8 +45,15 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
     const [files, setFiles] = useState(null);
     const [saving, setSaving] = useState(false);
     const [hoverPin, setHoverPin] = useState(null);
+    const [duplicateLocation, setDuplicateLocation] = useState(null);
+    const [comments, setComments] = useState([]);
+    const [commentsLoading, setCommentsLoading] = useState(false);
+    const [newComment, setNewComment] = useState('');
+    const [postingComment, setPostingComment] = useState(false);
+    const [endorsing, setEndorsing] = useState(false);
 
     const loggedIn = Boolean(userInfo?.id);
+    const isEndorsed = Boolean(duplicateLocation?.endorsedBy?.includes(userInfo?.id));
 
     useEffect(() => {
         fetch('http://localhost:4000/locations')
@@ -58,6 +78,13 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
             setShowAuthPrompt(true);
             return;
         }
+        const match = locations.find(loc =>
+            distanceMeters(loc.lat, loc.lng, place.lat, place.lng) < DUPLICATE_THRESHOLD_METERS
+        );
+        if (match) {
+            openExistingSpot(match);
+            return;
+        }
         setPendingPlace(place);
         setNote('');
         setFiles(null);
@@ -69,22 +96,90 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
         setFiles(null);
     }
 
+    function fetchComments(locationId) {
+        setCommentsLoading(true);
+        fetch(`http://localhost:4000/locations/${locationId}/comments`)
+            .then(res => res.json())
+            .then(data => {
+                setComments(data);
+                setCommentsLoading(false);
+            });
+    }
+
+    function openExistingSpot(location) {
+        setDuplicateLocation(location);
+        setNewComment('');
+        fetchComments(location._id);
+        openLocation(location);
+    }
+
+    function closeDuplicatePanel() {
+        setDuplicateLocation(null);
+        setComments([]);
+    }
+
+    function switchToFullPost() {
+        setPendingPlace({
+            name: duplicateLocation.name,
+            address: duplicateLocation.address,
+            lat: duplicateLocation.lat,
+            lng: duplicateLocation.lng,
+            existingLocationId: duplicateLocation._id,
+        });
+        setNote('');
+        setFiles(null);
+        setDuplicateLocation(null);
+    }
+
+    async function toggleEndorse() {
+        if (!duplicateLocation) return;
+        setEndorsing(true);
+        const res = await fetch(`http://localhost:4000/locations/${duplicateLocation._id}/endorse`, {
+            method: 'POST',
+            credentials: 'include',
+        });
+        const updated = await res.json();
+        setEndorsing(false);
+        setDuplicateLocation(updated);
+        setLocations(prev => prev.map(l => l._id === updated._id ? updated : l));
+    }
+
+    async function submitComment() {
+        if (!newComment.trim() || !duplicateLocation) return;
+        setPostingComment(true);
+        const res = await fetch(`http://localhost:4000/locations/${duplicateLocation._id}/comments`, {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            credentials: 'include',
+            body: JSON.stringify({ text: newComment.trim() }),
+        });
+        const comment = await res.json();
+        setComments(prev => [...prev, comment]);
+        setNewComment('');
+        setPostingComment(false);
+    }
+
     async function submitPendingPlace() {
         if (!pendingPlace) return;
         setSaving(true);
 
-        const locationRes = await fetch('http://localhost:4000/locations', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            credentials: 'include',
-            body: JSON.stringify({
-                name: pendingPlace.name,
-                lat: pendingPlace.lat,
-                lng: pendingPlace.lng,
-                address: pendingPlace.address,
-            }),
-        });
-        const locationDoc = await locationRes.json();
+        let locationDoc = null;
+        let locationId = pendingPlace.existingLocationId;
+        if (!locationId) {
+            const locationRes = await fetch('http://localhost:4000/locations', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                credentials: 'include',
+                body: JSON.stringify({
+                    name: pendingPlace.name,
+                    lat: pendingPlace.lat,
+                    lng: pendingPlace.lng,
+                    address: pendingPlace.address,
+                }),
+            });
+            locationDoc = await locationRes.json();
+            locationId = locationDoc._id;
+        }
 
         const data = new FormData();
         data.set('title', pendingPlace.name);
@@ -94,7 +189,7 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
             .filter(line => line.trim().length > 0)
             .map(line => `<p>${escapeHtml(line)}</p>`)
             .join(''));
-        data.set('location', locationDoc._id);
+        data.set('location', locationId);
         if (files?.[0]) {
             data.set('file', files[0]);
         }
@@ -106,8 +201,18 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
         });
 
         setSaving(false);
-        setLocations(prev => [...prev, locationDoc]);
-        openLocation(locationDoc);
+        if (locationDoc) {
+            setLocations(prev => [...prev, locationDoc]);
+            openLocation(locationDoc);
+        } else {
+            openLocation({
+                _id: locationId,
+                lat: pendingPlace.lat,
+                lng: pendingPlace.lng,
+                name: pendingPlace.name,
+                address: pendingPlace.address,
+            });
+        }
         cancelPendingPlace();
         onPostCreated?.();
     }
@@ -162,6 +267,60 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
                                     {saving ? 'Adding…' : 'Add pin'}
                                 </button>
                             </div>
+                        </div>
+                    </div>
+                )}
+
+                {duplicateLocation && (
+                    <div className="map-overlay-backdrop" onClick={closeDuplicatePanel}>
+                        <div className="map-duplicate-spot" onClick={ev => ev.stopPropagation()}>
+                            <button type="button" className="map-overlay-close" onClick={closeDuplicatePanel} aria-label="Close">&times;</button>
+                            <h3>📍 {duplicateLocation.name}</h3>
+                            <p className="map-duplicate-spot-hint">This spot's already on the map!</p>
+
+                            <button
+                                type="button"
+                                className={`map-endorse-btn ${isEndorsed ? 'endorsed' : ''}`}
+                                onClick={toggleEndorse}
+                                disabled={endorsing}
+                            >
+                                👍 {isEndorsed ? 'Endorsed' : 'Endorse'} ({duplicateLocation.endorsedBy?.length || 0})
+                            </button>
+
+                            <div className="map-comments">
+                                {commentsLoading && <p className="map-popup-loading">Loading comments…</p>}
+                                {!commentsLoading && comments.length === 0 && (
+                                    <p className="map-popup-empty">No comments yet — say something nice! 🌺</p>
+                                )}
+                                {!commentsLoading && comments.map(c => (
+                                    <div key={c._id} className="map-comment">
+                                        <span
+                                            className="map-comment-author"
+                                            style={{backgroundColor: getAuthorColor(c.author?.username)}}
+                                        >
+                                            {c.author?.username}
+                                        </span>
+                                        <span className="map-comment-text">{c.text}</span>
+                                    </div>
+                                ))}
+                            </div>
+
+                            <div className="map-comment-form">
+                                <input
+                                    type="text"
+                                    placeholder="Add a comment…"
+                                    value={newComment}
+                                    onChange={ev => setNewComment(ev.target.value)}
+                                    onKeyDown={ev => ev.key === 'Enter' && submitComment()}
+                                />
+                                <button type="button" onClick={submitComment} disabled={!newComment.trim() || postingComment}>
+                                    {postingComment ? '…' : 'Post'}
+                                </button>
+                            </div>
+
+                            <button type="button" className="map-write-post-btn" onClick={switchToFullPost}>
+                                ✍️ Write a full post instead
+                            </button>
                         </div>
                     </div>
                 )}

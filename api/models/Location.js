@@ -7,6 +7,7 @@ const LocationSchema = new Schema({
     lat: {type: Number, required: true},
     lng: {type: Number, required: true},
     address: String,
+    endorsedBy: [{type: Schema.Types.ObjectId, ref: 'User'}],
 }, {
     timestamps: true,
 });

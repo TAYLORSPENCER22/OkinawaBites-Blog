@@ -5,6 +5,7 @@ const { default: mongoose } = require('mongoose');
 const User = require('./models/User');
 const Post = require('./models/Post');
 const Location = require('./models/Location');
+const Comment = require('./models/Comment');
 const bcrypt = require('bcryptjs');
 const app = express();
 const jwt = require('jsonwebtoken');
@@ -113,6 +114,50 @@ app.get('/locations/:id/posts', async (req,res) => {
         .populate('author', ['username'])
         .sort({createdAt: -1})
     );
+});
+
+//toggle whether the logged-in user endorses a location
+app.post('/locations/:id/endorse', async (req,res) => {
+    const {token} = req.cookies;
+    jwt.verify(token, secret, {}, async (err, info) => {
+        if (err) {
+            return res.status(403).json({ error: "Invalid token" });
+        }
+        const {id} = req.params;
+        const location = await Location.findById(id);
+        const alreadyEndorsed = location.endorsedBy.some(userId => userId.toString() === info.id);
+        if (alreadyEndorsed) {
+            location.endorsedBy = location.endorsedBy.filter(userId => userId.toString() !== info.id);
+        } else {
+            location.endorsedBy.push(info.id);
+        }
+        await location.save();
+        res.json(location);
+    });
+});
+
+//comments left on a location
+app.get('/locations/:id/comments', async (req,res) => {
+    const {id} = req.params;
+    res.json(
+        await Comment.find({location: id})
+        .populate('author', ['username'])
+        .sort({createdAt: 1})
+    );
+});
+
+app.post('/locations/:id/comments', async (req,res) => {
+    const {token} = req.cookies;
+    jwt.verify(token, secret, {}, async (err, info) => {
+        if (err) {
+            return res.status(403).json({ error: "Invalid token" });
+        }
+        const {id} = req.params;
+        const {text} = req.body;
+        const commentDoc = await Comment.create({location: id, author: info.id, text});
+        await commentDoc.populate('author', ['username']);
+        res.json(commentDoc);
+    });
 });
 
 //create new blog post and rename uploaded file
