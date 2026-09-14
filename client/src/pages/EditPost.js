@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import Editor from "../Editor";
 import DeletePage from "./DeletePage";
+import ImageDropzone from "../ImageDropzone";
 
 export default function EditPost() {
 
@@ -10,8 +11,7 @@ export default function EditPost() {
     const [summary, setSummary] =useState('');
     const [content, setContent] = useState('');
     const [files, setFiles] = useState('');
-//   // start here to display image  const [cover, setCover] = useState('');
-//     const[redirectToHome, setRedirectToHome] = useState(false);
+    const [cover, setCover] = useState('');
     const[redirectToPost, setRedirectToPost] = useState(false);
 
     useEffect(() => {
@@ -21,9 +21,10 @@ export default function EditPost() {
                 setTitle(postInfo.title);
                 setContent(postInfo.content);
                 setSummary(postInfo.summary);
+                setCover(postInfo.cover);
             });
         });
-    }, []);
+    }, [id]);
 
     async function updatePost(ev) {
         ev.preventDefault();
@@ -61,8 +62,10 @@ export default function EditPost() {
                     placeholder={'Summary'}
                     value={summary}
                     onChange={ev => setSummary(ev.target.value)} />
-                <input type="file"
-                        onChange={ev => setFiles(ev.target.files)}  />
+                <ImageDropzone
+                    onFilesSelected={setFiles}
+                    existingCover={cover ? (cover.startsWith('http') ? cover : `http://localhost:4000/${cover}`) : null}
+                />
                 <Editor onChange={setContent} value={content} />
                 <button className="createPostButton">Update Post</button>
             <div>

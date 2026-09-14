@@ -1,8 +1,8 @@
 import { useState } from "react";
-import ReactQuill from "react-quill-new";
 import { Navigate } from "react-router-dom";
 import 'react-quill-new/dist/quill.snow.css';
 import Editor from "../Editor";
+import ImageDropzone from "../ImageDropzone";
 
 
 export default function CreatePost() {
@@ -43,8 +43,7 @@ export default function CreatePost() {
                 placeholder={'Description'}
                 value={summary}
                 onChange={ev => setSummary(ev.target.value)} />
-            <input type="file"
-                    onChange={ev => setFiles(ev.target.files)}  />
+            <ImageDropzone onFilesSelected={setFiles} />
             <Editor value={content} onChange={setContent} />
 
             <button className="createPostButton">Create Post</button>
