@@ -4,10 +4,11 @@ export default function AboutPage() {
             <h1>About OkinawaBites</h1>
 
             <div className="about-gallery">
-                <img src="https://picsum.photos/seed/okinawa-coast/500/350" alt="Okinawa coastline" />
-                <img src="https://picsum.photos/seed/okinawa-dish/500/350" alt="Okinawan dish" />
-                <img src="https://picsum.photos/seed/okinawa-street/500/350" alt="Okinawa street market" />
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/File:Sunset_beach_at_Okinawa.jpg?width=600" alt="Sunset over an Okinawa beach" />
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/File:Okinawa_soba_and_goya_chanpuru.jpg?width=600" alt="Okinawa soba and goya chanpuru" />
+                <img src="https://commons.wikimedia.org/wiki/Special:FilePath/File:JP-47_Naha_Makishi-Public-Market.jpg?width=600" alt="Makishi Public Market in Naha" />
             </div>
+            <p className="about-gallery-credit">Photos via Wikimedia Commons — swap these for our own whenever.</p>
 
             <p>
                 OkinawaBites started as a personal diary during my trip to Okinawa, Japan in January 2025 —

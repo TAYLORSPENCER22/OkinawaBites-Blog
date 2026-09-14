@@ -87,6 +87,16 @@ main {
   border: 3px solid #2A2122;
 }
 
+.about-gallery-credit {
+  font-family: Epilogue;
+  font-size: 11px;
+  text-align: center;
+  color: #F6F6F6;
+  opacity: 0.75;
+  margin-top: -18px;
+  margin-bottom: 30px;
+}
+
 .post-page {
   background-color: #2A2122 ;
   min-height: 100vh;
