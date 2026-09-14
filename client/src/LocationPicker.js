@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Map, { Marker } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
+import PlaceSearch from "./PlaceSearch";
 
 const MAPBOX_TOKEN = process.env.REACT_APP_MAPBOX_TOKEN;
 const INITIAL_VIEW = { longitude: 127.9, latitude: 26.35, zoom: 9.5 };
@@ -61,6 +62,14 @@ export default function LocationPicker({ value, onChange }) {
 
             {mode === 'new' && (
                 <div className="location-picker-new">
+                    <PlaceSearch
+                        placeholder="Search for the restaurant or its address"
+                        onSelect={({name, address, lat, lng}) => {
+                            setNewName(name);
+                            setNewAddress(address);
+                            setNewPin({ lat, lng });
+                        }}
+                    />
                     <input
                         type="text"
                         placeholder="Restaurant / spot name"
@@ -76,8 +85,8 @@ export default function LocationPicker({ value, onChange }) {
                     {MAPBOX_TOKEN ? (
                         <div className="location-picker-map">
                             <Map
-                                mapboxAccessToken={MAPBOX_TOKEN}
                                 initialViewState={INITIAL_VIEW}
+                                mapboxAccessToken={MAPBOX_TOKEN}
                                 style={{ width: '100%', height: '100%' }}
                                 mapStyle="mapbox://styles/mapbox/streets-v12"
                                 onClick={ev => setNewPin({ lat: ev.lngLat.lat, lng: ev.lngLat.lng })}
@@ -92,7 +101,9 @@ export default function LocationPicker({ value, onChange }) {
                     ) : (
                         <p className="location-picker-hint">Add a Mapbox token to drop a pin.</p>
                     )}
-                    <p className="location-picker-hint">Click the map to drop a pin at the restaurant.</p>
+                    <p className="location-picker-hint">
+                        Search above and pick a result, or click the map to drop/adjust the pin manually.
+                    </p>
                     <button
                         type="button"
                         className="location-picker-save"

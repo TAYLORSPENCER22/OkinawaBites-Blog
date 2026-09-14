@@ -118,11 +118,14 @@ app.get('/locations/:id/posts', async (req,res) => {
 //create new blog post and rename uploaded file
 
 app.post('/post', uploadMiddleware.single('file'), async (req,res) => {
-    const {originalname, path} = req.file;
-    const parts = originalname.split('.');
-    const ext =parts[parts.length -1];
-    const newPath = ( path+ '.' +ext);
-    fs.renameSync(path, newPath);
+    let newPath = null;
+    if (req.file) {
+        const {originalname, path} = req.file;
+        const parts = originalname.split('.');
+        const ext =parts[parts.length -1];
+        newPath = ( path+ '.' +ext);
+        fs.renameSync(path, newPath);
+    }
 
     //verify the token to create the new post
     const {token} = req.cookies;
