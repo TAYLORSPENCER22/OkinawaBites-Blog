@@ -15,6 +15,7 @@
 # misc
 /api/.env
 /api/uploads
+/client/.env
 
 
 npm-debug.log*

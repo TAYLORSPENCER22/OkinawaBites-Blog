@@ -4,6 +4,7 @@ const cors = require('cors');
 const { default: mongoose } = require('mongoose');
 const User = require('./models/User');
 const Post = require('./models/Post');
+const Location = require('./models/Location');
 const bcrypt = require('bcryptjs');
 const app = express();
 const jwt = require('jsonwebtoken');
@@ -86,29 +87,58 @@ app.post('/logout', (req, res) => {
     res.json({ message: 'ok' });
 });
 
-//create new blog post and rename uploaded file  
+//create a new location (restaurant pin), or reuse one that already has this name
+app.post('/locations', async (req,res) => {
+    const {token} = req.cookies;
+    jwt.verify(token, secret, {}, async (err) => {
+        if (err) {
+            return res.status(403).json({ error: "Invalid token" }); // 403 = Forbidden
+        }
+        const {name, lat, lng, address} = req.body;
+        const locationDoc = await Location.create({name, lat, lng, address});
+        res.json(locationDoc);
+    });
+});
+
+//list every location, for the map pins
+app.get('/locations', async (req,res) => {
+    res.json(await Location.find().sort({name: 1}));
+});
+
+//all posts tied to one location, for the map popup
+app.get('/locations/:id/posts', async (req,res) => {
+    const {id} = req.params;
+    res.json(
+        await Post.find({location: id})
+        .populate('author', ['username'])
+        .sort({createdAt: -1})
+    );
+});
+
+//create new blog post and rename uploaded file
 
 app.post('/post', uploadMiddleware.single('file'), async (req,res) => {
     const {originalname, path} = req.file;
     const parts = originalname.split('.');
-    const ext =parts[parts.length -1]; 
+    const ext =parts[parts.length -1];
     const newPath = ( path+ '.' +ext);
     fs.renameSync(path, newPath);
 
-    //verify the token to create the new post 
+    //verify the token to create the new post
     const {token} = req.cookies;
     jwt.verify(token, secret, {}, async (err, info) => {
         if (err) {
             return res.status(403).json({ error: "Invalid token" }); // 403 = Forbidden
         }
      //create the post
-    const {title, summary, content} = req.body;
+    const {title, summary, content, location} = req.body;
     const postDoc = await Post.create({
         title,
         summary,
-        content, 
+        content,
         cover: newPath,
         author: info.id,
+        location: location || null,
     });
         res.json(postDoc);
     });
@@ -132,17 +162,18 @@ app.put('/post', uploadMiddleware.single('file'), async (req,res) => {
         if (err) {
             return res.status(403).json({ error: "Invalid token" }); // 403 = Forbidden
         }
-        const {id, title, summary, content} = req.body;
+        const {id, title, summary, content, location} = req.body;
         const postDoc = await Post.findById(id);
         const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id);
         if (!isAuthor) {
             return res.status(400).json('you are not the author')
         }
         await postDoc.updateOne({
-            title, 
-            summary, 
+            title,
+            summary,
             content,
             cover: newPath ? newPath : postDoc.cover,
+            location: location || null,
         });
         res.json(postDoc);
     });
@@ -155,15 +186,16 @@ app.get('/post', async (req,res) => {
     res.json(
         await Post.find()
         .populate('author', ['username'])
+        .populate('location')
         .sort({createdAt: -1}) //show newest post at the top
         .limit(20) //only 20 max posts on the home page
         );
 })
 
-//endpoint to get single post 
+//endpoint to get single post
 app.get('/post/:id', async (req, res) => {
     const {id} = req.params;
-    const postDoc = await Post.findById(id).populate('author', ['username']);
+    const postDoc = await Post.findById(id).populate('author', ['username']).populate('location');
     res.json(postDoc);
 })
 

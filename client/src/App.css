@@ -255,6 +255,154 @@ main {
   overflow-y: auto;
 }
 
+/* location picker on create/edit post */
+.location-picker {
+  width: 90%;
+  margin: 3px 0 10px 0;
+  padding: 12px;
+  border: 1px solid #2A2122;
+  border-radius: 10px;
+}
+
+.location-picker-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.location-picker-tabs button {
+  font-family: Epilogue;
+  font-size: 12px;
+  padding: 5px 10px;
+  border-radius: 20px;
+  border: 1px solid #2A2122;
+  background: transparent;
+  color: #2A2122;
+  cursor: pointer;
+}
+
+.location-picker-tabs button.active {
+  background: #2A2122;
+  color: #F6F6F6;
+}
+
+.location-picker select {
+  width: 100%;
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #2A2122;
+  font-family: Epilogue;
+}
+
+.location-picker-new {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.location-picker-new input {
+  width: 100%;
+  padding: 5px 12px;
+  border: 1px solid #2A2122;
+  border-radius: 10px;
+  font-family: Epilogue;
+}
+
+.location-picker-map {
+  width: 100%;
+  height: 240px;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 2px solid #2A2122;
+}
+
+.location-picker-hint {
+  font-family: Epilogue;
+  font-size: 11px;
+  color: #666;
+  margin: 0;
+}
+
+.location-picker-save {
+  align-self: flex-start;
+  font-family: Epilogue;
+  font-size: 13px;
+  padding: 6px 14px;
+  border-radius: 10px;
+  border: none;
+  background: #2A2122;
+  color: #F6F6F6;
+  cursor: pointer;
+}
+
+.location-picker-save:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* homepage restaurant map */
+.map-container {
+  width: 90%;
+  max-width: 1200px;
+  height: 420px;
+  margin: 30px auto 10px auto;
+  border-radius: 20px;
+  overflow: hidden;
+  border: 4px solid #2A2122;
+}
+
+.map-missing-token {
+  width: 90%;
+  max-width: 1200px;
+  margin: 30px auto 10px auto;
+  padding: 20px;
+  border-radius: 16px;
+  background: #2A2122;
+  color: #F6F6F6;
+  font-family: Epilogue;
+  font-size: 14px;
+  text-align: center;
+}
+
+.map-pin {
+  width: 22px;
+  height: 22px;
+  border-radius: 50% 50% 50% 0;
+  background: #A73A5E;
+  border: 2px solid #F6F6F6;
+  transform: rotate(-45deg);
+  cursor: pointer;
+}
+
+.map-popup h3 {
+  margin: 0 0 6px 0;
+  font-size: 1.1rem;
+  color: #2A2122;
+}
+
+.map-popup-address {
+  margin: 0 0 8px 0;
+  font-family: Epilogue;
+  font-size: 12px;
+  color: #555;
+}
+
+.map-popup-empty {
+  font-family: Epilogue;
+  font-size: 12px;
+  color: #888;
+  margin: 0;
+}
+
+.map-popup-post {
+  display: block;
+  font-family: Epilogue;
+  font-size: 13px;
+  color: #2A2122;
+  text-decoration: underline;
+  margin-bottom: 4px;
+}
+
 /* drag-and-drop cover image picker */
 .dropzone {
   width: 90%;
@@ -477,6 +625,21 @@ h2.titleSummary {
   color: #F6F6F6;
   margin: 0 0 8px 0;
   font-size: 1.4rem;
+}
+
+.post-location {
+  font-family: Epilogue;
+  font-size: 12px;
+  color: #ACEBF1;
+  margin: -4px 0 8px 0;
+}
+
+.post-page-location {
+  font-family: Epilogue;
+  font-size: 14px;
+  color: #ACEBF1;
+  text-align: center;
+  margin: -10px 0 0 0;
 }
 
 div.post p.info {

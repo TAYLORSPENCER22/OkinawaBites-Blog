@@ -42,6 +42,9 @@ export default function PostPage() {
                 </time>
             </div>
             <h1>{postInfo.title || "Untitled Post"}</h1>
+            {postInfo.location && (
+                <p className="post-page-location">📍 {postInfo.location.name}</p>
+            )}
             {userInfo?.id === postInfo?.author?._id && (
                 <div className="edit-row">
                     <Link className="edit-btn" to={`/edit/${postInfo._id}`}>
