@@ -300,11 +300,6 @@ main {
 nav.responsiveNavBar, .listBtn {
   display: none;
 }
-
-nav.responsiveNavBar.show {
-  display: flex;
-  flex-direction: column;
-}
 nav {
   display: flex;
   height: 140px;
@@ -749,20 +744,27 @@ button svg {
     padding-top: 140px;
     top: 0;
     right: 0;
-    align-items: flex-start;
     height: 100vh;
-    width: 200px;
+    width: 100%;
     z-index: 999;
-    /* background-color: #847E2A; */
-    background-color: rgba(132, 126, 42, 0.4);
-    backdrop-filter: blur(10px);
-    box-shadow: -10px 0 10px rgba(0, 0, 0, 0.1) ;
-    display: none;
+    background-color: #847E2A;
+    box-shadow: -10px 0 20px rgba(0, 0, 0, 0.2);
+    display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
+    gap: 22px;
     margin: auto;
-    
+    transform: translateX(100%);
+    opacity: 0;
+    transition: transform 0.35s ease, opacity 0.25s ease;
+    pointer-events: none;
+  }
+
+  nav.responsiveNavBar.show {
+    transform: translateX(0);
+    opacity: 1;
+    pointer-events: auto;
   }
 
   .listBtn {
