@@ -351,20 +351,20 @@ div.post p.info a.author {
   display: flex;
   font-family: Epilogue;
   font-weight: bold;
-  font-size: 10px;
+  font-size: 12px;
   align-items: center;
   color: #2A2122;
   width: auto;
   background: #ACEBF1;
   border-radius: 70px;
-  padding: 5px 8px 5px 8px;
+  padding: 5px 9px 5px 9px;
 }
 
 /* article summary on home page */
 div.post p.summary {
   color: #F6F6F6;
   font-family: Epilogue;
-  font-size: 13px;
+  font-size: 15px;
   font-style: normal;
   font-weight: 400;
   line-height: 1.5;
@@ -375,13 +375,13 @@ div.post p.summary {
 .homeTime {
   display: flex;
   font-family: Epilogue;
-  font-size: 9px;
+  font-size: 11px;
   align-items: center;
   color: #F6F6F6;
   width: auto;
   background: #A73A5E;
   border-radius: 70px;
-  padding: 5px 8px 5px 8px;
+  padding: 5px 9px 5px 9px;
 }
 
 form.login {
@@ -462,20 +462,20 @@ div.post-page {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  margin: auto;
-  padding: auto;
-  width: 100vw;
-  gap: 5px;
+  margin: 0 auto;
+  padding: 50px 20px;
+  width: 100%;
+  max-width: 900px;
+  gap: 20px;
 
 }
 
 div.post-page div.image{
-  max-height: auto;
   max-width: 700px;
+  width: 100%;
   display: flex;
-  margin: 20px 50px;
-  
+  margin: 0;
+
 }
 
 div.post-page div.image img {
@@ -498,7 +498,8 @@ div.post-page a{
 
 div.post-page h1 {
   text-align: center;
-  margin: auto 30px;
+  margin: 0;
+  font-size: 2.2rem;
   color: #F6F6F6;
 
 }
@@ -514,10 +515,10 @@ div.post-page h1 {
 /* time button on edit page */
 div.post-page time {
   background: #A73A5E;
-  padding: 3px 8px;
+  padding: 4px 10px;
   border-radius: 70px;
   color: #F6F6F6;
-  font-size: 9px;
+  font-size: 12px;
   align-items: center;
   justify-items: center;
   font-family: Epilogue;
@@ -527,9 +528,9 @@ div.post-page time {
 div.post-page div.author {
   display: flex;
   margin: 0;
-  font-size: 0.7rem;
+  font-size: 0.85rem;
   background: #D0E1F0;
-  padding: 2px 6px 3px 6px;
+  padding: 3px 8px 4px 8px;
   border-radius: 70px;
   font-family: Epilogue;
 }
@@ -551,7 +552,7 @@ div.post-page div.content p{
 /* edit  */
 div.edit-row{
   text-align: center;
-  margin-bottom: auto;
+  margin: 0;
 
 }
 
@@ -559,10 +560,10 @@ div.post-page a.edit-btn {
   display: inline-flex;
   align-items: center;
   gap: 5px;
-  font-size: 12px;
+  font-size: 14px;
   text-decoration: none;
   color: #fff;
-  padding: 4px 12px;
+  padding: 5px 14px;
   border-radius: 10px;
   border: solid 2px #F6E4E3;
 }
