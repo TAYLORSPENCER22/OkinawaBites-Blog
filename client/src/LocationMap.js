@@ -25,6 +25,7 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
     const [locations, setLocations] = useState([]);
     const [selected, setSelected] = useState(null);
     const [selectedPosts, setSelectedPosts] = useState([]);
+    const [postsLoading, setPostsLoading] = useState(false);
     const [pendingPlace, setPendingPlace] = useState(null);
     const [showAuthPrompt, setShowAuthPrompt] = useState(false);
     const [note, setNote] = useState('');
@@ -43,9 +44,13 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
     const openLocation = useCallback((location) => {
         setSelected(location);
         setSelectedPosts([]);
+        setPostsLoading(true);
         fetch(`http://localhost:4000/locations/${location._id}/posts`)
             .then(res => res.json())
-            .then(setSelectedPosts);
+            .then(data => {
+                setSelectedPosts(data);
+                setPostsLoading(false);
+            });
     }, []);
 
     function handleSearchSelect(place) {
@@ -201,12 +206,17 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
                             onClose={() => setSelected(null)}
                         >
                             <div className="map-popup">
-                                <h3>{selected.name}</h3>
+                                <h3>🍽️ {selected.name}</h3>
                                 {selected.address && <p className="map-popup-address">{selected.address}</p>}
-                                {selectedPosts.length === 0 && (
-                                    <p className="map-popup-empty">No posts yet for this spot.</p>
+                                {postsLoading && (
+                                    <p className="map-popup-loading">
+                                        Digging up posts<span className="map-popup-loading-dots"><span>.</span><span>.</span><span>.</span></span>
+                                    </p>
                                 )}
-                                {selectedPosts.map(post => (
+                                {!postsLoading && selectedPosts.length === 0 && (
+                                    <p className="map-popup-empty">Nothing here yet — be the first to post! 🌺</p>
+                                )}
+                                {!postsLoading && selectedPosts.map(post => (
                                     <Link key={post._id} to={`/post/${post._id}`} className="map-popup-post">
                                         {post.title}
                                     </Link>
