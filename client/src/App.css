@@ -255,47 +255,31 @@ nav svg {
 /* home blog posts  */
 
 .postCard {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin: auto auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
   width: 90%;
-  gap: 20px;
+  max-width: 1200px;
+  margin: 40px auto;
 }
 
-div.post { 
-  display: flex; 
-  flex-direction: row;
-  flex-wrap: wrap;
-  padding: 30px;
-  align-items: center;
-  gap: 25px;
-  border-radius: 40px;
+div.post {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 30px;
   border: 4px solid #D7E3F1;
   background: #2A2122;
-  width: 100%;
-  max-width:650px;
-  height: 290px;
-  position: relative;
-}
-.texts {
-  display: flex;
-  width: 60%;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: flex-start;
-  align-self: stretch;
+  height: 100%;
 }
 
 div.post img {
   display: block;
-  max-width: 200px;
   width: 100%;
-  height: auto;
-  border-radius: 10px;
-  height: auto;
-  padding: 0;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 16px;
+  margin-bottom: 16px;
 }
 
 a {
@@ -306,26 +290,21 @@ a {
 h2.titleSummary {
   text-decoration: none;
   color: #F6F6F6;
-  height: 75px;
-  align-self: flex-start;
-  position: absolute;
-  bottom: 180px;
-  margin-right: 10px;
+  margin: 0 0 8px 0;
+  font-size: 1.4rem;
 }
 
 div.post p.info {
-  margin: 6px 0;
+  margin: 0;
+  margin-top: auto;
+  padding-top: 16px;
   color: #888;
   font-size: .7rem;
   font-weight: bold;
   display: flex;
   gap: 10px;
-  width: 100%;
   justify-content: flex-end;
   align-items: center;
-  position: absolute;
-  top: 240px;
-  right: 20px;
 }
 
 /* author button on home page */
@@ -342,27 +321,16 @@ div.post p.info a.author {
   padding: 5px 8px 5px 8px;
 }
 
-
-/* home page  */
-
 /* article summary on home page */
 div.post p.summary {
-  /* style */
   color: #F6F6F6;
   font-family: Epilogue;
-  font-size: 12px;
+  font-size: 13px;
   font-style: normal;
   font-weight: 400;
-  line-height: 14px;
-
-  /* position */
-  height: auto; 
-  position: absolute;
-  top: 120px; 
-  left: 250px; 
-  width: auto;
-  margin-right: 10px;
-
+  line-height: 1.5;
+  margin: 0;
+  flex-grow: 1;
 }
 
 .homeTime {
@@ -674,74 +642,33 @@ button svg {
 /* home page responsive for phones */
 @media screen and (max-width: 600px) {
 
- 
-  div.postCard {
-    width: 80%;
+  .postCard {
+    grid-template-columns: 1fr;
+    width: 88%;
   }
 
   div.post {
-  flex-direction: column;
-  border-radius: 25px;
-  flex-wrap: nowrap;
-  max-height: 570px;
-  height: auto;
-  position: relative;
-  margin: auto;
-  padding: 10px;
-  gap:10px;
-  border: 3px solid #D7E3F1;
+    border-radius: 25px;
+    padding: 14px;
   }
 
   h2.titleSummary {
-    bottom: 10px;
-    position: relative;
     text-align: center;
     font-size: 1.2em;
-    height: auto;
-    max-height: 50px;
-    top:0px;
-    padding: 0 5px 0 5px;
-    }
-
-  div.post img {
-  display: flex;
-   max-width: 90%;
-   align-items: flex-start;
-   width: auto;
-
-   margin: 0 auto;
-   position: relative;
-   padding-top: 5px;
   }
 
   div.post p.summary {
-    position: relative;
-    top: 0px;
-    bottom: auto;
-    left: auto;
-    margin: auto;
-    text-align: justify;
-    max-width: 90%;
-    height: 60px;
+    text-align: center;
   }
 
   div.post p.info {
-    position: relative;
-    top: 93%;
-    right: auto;
-    width: 100%;
-    margin: 0 auto;
+    justify-content: center;
   }
 
-  div.post p.info a.author {
-    font-size: 8px;
-    padding: 4px 7px 4px 7px;
-  }
-
-  /* //hide created time in mobile  */
-   .homeTime {
+  /* hide created time on mobile to save space */
+  .homeTime {
     display: none;
-   }
+  }
 
 }
 
