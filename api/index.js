@@ -17,6 +17,11 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 
+// don't let one bad request's unhandled rejection take down the whole server
+process.on('unhandledRejection', (reason) => {
+    console.error('Unhandled promise rejection:', reason);
+});
+
 const salt = bcrypt.genSaltSync(10);
 const secret = process.env.JWT_SECRET;
 
@@ -125,6 +130,9 @@ app.post('/locations/:id/endorse', async (req,res) => {
         }
         const {id} = req.params;
         const location = await Location.findById(id);
+        if (!location) {
+            return res.status(404).json('location not found');
+        }
         const alreadyEndorsed = location.endorsedBy.some(userId => userId.toString() === info.id);
         if (alreadyEndorsed) {
             location.endorsedBy = location.endorsedBy.filter(userId => userId.toString() !== info.id);
@@ -249,6 +257,9 @@ app.put('/post', uploadMiddleware.single('file'), async (req,res) => {
         }
         const {id, title, summary, content, location} = req.body;
         const postDoc = await Post.findById(id);
+        if (!postDoc) {
+            return res.status(404).json('post not found');
+        }
         const isAuthor = JSON.stringify(postDoc.author) === JSON.stringify(info.id);
         if (!isAuthor) {
             return res.status(400).json('you are not the author')
