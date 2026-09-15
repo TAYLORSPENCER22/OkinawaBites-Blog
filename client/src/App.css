@@ -1298,6 +1298,22 @@ form.register input, form.login input {
   background-color: #fff;
 }
 
+.form-error, .form-success {
+  width: 80%;
+  text-align: center;
+  font-family: Epilogue;
+  font-size: 12px;
+  margin: 4px 0 8px 0;
+}
+
+.form-error {
+  color: #A73A5E;
+}
+
+.form-success {
+  color: #2E7D32;
+}
+
 .login button, .register button {
   display: flex;
   align-items: center;
