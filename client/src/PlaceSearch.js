@@ -7,11 +7,15 @@ const OKINAWA_BBOX = "122.8,24.0,131.4,27.9";
 
 // onSelect receives { name, address, lat, lng }
 // onHoverResult (optional) receives { name, lat, lng } while hovering a result, or null when not
-export default function PlaceSearch({ onSelect, placeholder, onHoverResult }) {
+// bbox/proximity (optional) narrow results to the map's current view; falls back to all of Okinawa
+export default function PlaceSearch({ onSelect, placeholder, onHoverResult, bbox, proximity }) {
     const [query, setQuery] = useState('');
     const [results, setResults] = useState([]);
     const [loading, setLoading] = useState(false);
     const debounceRef = useRef(null);
+
+    const effectiveBbox = bbox || OKINAWA_BBOX;
+    const effectiveProximity = proximity || PROXIMITY;
 
     useEffect(() => {
         if (!query || query.trim().length < 3) {
@@ -27,7 +31,7 @@ export default function PlaceSearch({ onSelect, placeholder, onHoverResult }) {
 
         clearTimeout(debounceRef.current);
         debounceRef.current = setTimeout(() => {
-            fetch(`https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(query)}&country=jp&bbox=${OKINAWA_BBOX}&proximity=${PROXIMITY}&limit=10&access_token=${MAPBOX_TOKEN}`)
+            fetch(`https://api.mapbox.com/search/geocode/v6/forward?q=${encodeURIComponent(query)}&country=jp&bbox=${effectiveBbox}&proximity=${effectiveProximity}&limit=10&access_token=${MAPBOX_TOKEN}`)
                 .then(res => res.json())
                 .then(data => {
                     setResults(data.features || []);
@@ -37,7 +41,7 @@ export default function PlaceSearch({ onSelect, placeholder, onHoverResult }) {
         }, 400);
 
         return () => clearTimeout(debounceRef.current);
-    }, [query]);
+    }, [query, effectiveBbox, effectiveProximity]);
 
     function handleSelect(feature) {
         const [lng, lat] = feature.geometry.coordinates;

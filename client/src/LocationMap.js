@@ -48,6 +48,7 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
     const [duplicateLocation, setDuplicateLocation] = useState(null);
     const [endorsing, setEndorsing] = useState(false);
     const [actionError, setActionError] = useState('');
+    const [mapView, setMapView] = useState(null);
 
     const loggedIn = Boolean(userInfo?.id);
     const isEndorsed = Boolean(duplicateLocation?.endorsedBy?.includes(userInfo?.id));
@@ -56,6 +57,16 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
         fetch('http://localhost:4000/locations')
             .then(res => res.json())
             .then(setLocations);
+    }, []);
+
+    const handleMapMoveEnd = useCallback((evt) => {
+        const map = evt.target;
+        const bounds = map.getBounds();
+        const center = map.getCenter();
+        setMapView({
+            bbox: `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()}`,
+            proximity: `${center.lng},${center.lat}`,
+        });
     }, []);
 
     const openLocation = useCallback((location) => {
@@ -212,6 +223,8 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
                         placeholder="Search to add a pin"
                         onSelect={handleSearchSelect}
                         onHoverResult={setHoverPin}
+                        bbox={mapView?.bbox}
+                        proximity={mapView?.proximity}
                     />
                 </div>
 
@@ -291,6 +304,8 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
                     initialViewState={INITIAL_VIEW}
                     style={{ width: '100%', height: '100%' }}
                     mapStyle="mapbox://styles/mapbox/streets-v12"
+                    onLoad={handleMapMoveEnd}
+                    onMoveEnd={handleMapMoveEnd}
                 >
                     {locations.map(loc => (
                         <Marker

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Map, { Marker } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
 import PlaceSearch from "./PlaceSearch";
@@ -15,6 +15,17 @@ export default function LocationPicker({ value, onChange }) {
     const [newPin, setNewPin] = useState(null);
     const [saving, setSaving] = useState(false);
     const [hoverPin, setHoverPin] = useState(null);
+    const [mapView, setMapView] = useState(null);
+
+    const handleMapMoveEnd = useCallback((evt) => {
+        const map = evt.target;
+        const bounds = map.getBounds();
+        const center = map.getCenter();
+        setMapView({
+            bbox: `${bounds.getWest()},${bounds.getSouth()},${bounds.getEast()},${bounds.getNorth()}`,
+            proximity: `${center.lng},${center.lat}`,
+        });
+    }, []);
 
     useEffect(() => {
         fetch('http://localhost:4000/locations')
@@ -71,6 +82,8 @@ export default function LocationPicker({ value, onChange }) {
                             setNewPin({ lat, lng });
                         }}
                         onHoverResult={setHoverPin}
+                        bbox={mapView?.bbox}
+                        proximity={mapView?.proximity}
                     />
                     <input
                         type="text"
@@ -92,6 +105,8 @@ export default function LocationPicker({ value, onChange }) {
                                 style={{ width: '100%', height: '100%' }}
                                 mapStyle="mapbox://styles/mapbox/streets-v12"
                                 onClick={ev => setNewPin({ lat: ev.lngLat.lat, lng: ev.lngLat.lng })}
+                                onLoad={handleMapMoveEnd}
+                                onMoveEnd={handleMapMoveEnd}
                             >
                                 {newPin && (
                                     <Marker longitude={newPin.lng} latitude={newPin.lat} anchor="bottom">
