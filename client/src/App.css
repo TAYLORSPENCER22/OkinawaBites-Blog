@@ -1098,11 +1098,7 @@ nav a.logo {
   display: flex;
   font-weight: bold;
   font-size: 2rem;
-  text-align: center;
-  justify-self: center;
-  position: absolute;
-  left: 50%;
-  transform: translateX(-50%); 
+  margin-right: auto;
 }
 
 
