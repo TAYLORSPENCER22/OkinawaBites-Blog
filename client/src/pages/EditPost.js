@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router-dom";
 import Editor from "../Editor";
 import DeletePage from "./DeletePage";
+import ImageDropzone from "../ImageDropzone";
+import LocationPicker from "../LocationPicker";
 
 export default function EditPost() {
 
@@ -10,8 +12,8 @@ export default function EditPost() {
     const [summary, setSummary] =useState('');
     const [content, setContent] = useState('');
     const [files, setFiles] = useState('');
-//   // start here to display image  const [cover, setCover] = useState('');
-//     const[redirectToHome, setRedirectToHome] = useState(false);
+    const [cover, setCover] = useState('');
+    const [location, setLocation] = useState('');
     const[redirectToPost, setRedirectToPost] = useState(false);
 
     useEffect(() => {
@@ -21,9 +23,11 @@ export default function EditPost() {
                 setTitle(postInfo.title);
                 setContent(postInfo.content);
                 setSummary(postInfo.summary);
+                setCover(postInfo.cover);
+                setLocation(postInfo.location?._id || '');
             });
         });
-    }, []);
+    }, [id]);
 
     async function updatePost(ev) {
         ev.preventDefault();
@@ -32,6 +36,7 @@ export default function EditPost() {
         data.set('summary', summary);
         data.set('content', content);
         data.set('id', id);
+        data.set('location', location);
         if(files?.[0]) {
         data.set('file', files?.[0]);
         }
@@ -61,8 +66,11 @@ export default function EditPost() {
                     placeholder={'Summary'}
                     value={summary}
                     onChange={ev => setSummary(ev.target.value)} />
-                <input type="file"
-                        onChange={ev => setFiles(ev.target.files)}  />
+                <ImageDropzone
+                    onFilesSelected={setFiles}
+                    existingCover={cover ? (cover.startsWith('http') ? cover : `http://localhost:4000/${cover}`) : null}
+                />
+                <LocationPicker value={location} onChange={setLocation} />
                 <Editor onChange={setContent} value={content} />
                 <button className="createPostButton">Update Post</button>
             <div>

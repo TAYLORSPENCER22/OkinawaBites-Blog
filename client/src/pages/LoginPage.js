@@ -7,14 +7,16 @@ export default function LoginPage () {
     const[username, setUsername] = useState('');
     const[password, setPassword] = useState('');
     const[redirect, setRedirect] = useState(false);
+    const[error, setError] = useState('');
     const {setUserInfo} = useContext(UserContext);
     async function login(ev) {
         ev.preventDefault();
+        setError('');
         const response = await fetch('http://localhost:4000/login', {
             method: 'POST',
             body: JSON.stringify({username, password}),
             headers: {'Content-Type': 'application/json'},
-            credentials: 'include', 
+            credentials: 'include',
         });
         if(response.ok) {
             response.json().then(userInfo => {
@@ -22,7 +24,7 @@ export default function LoginPage () {
                 setRedirect(true);
             })
         } else {
-            alert('wrong credentials');
+            setError('Wrong credentials');
         }
     }
     if (redirect) {
@@ -37,10 +39,11 @@ export default function LoginPage () {
             placeholder="Username"
             value={username} 
             onChange={ev => setUsername(ev.target.value)}/>
-        <input type="password" 
-            placeholder="Password" 
-            value={password} 
+        <input type="password"
+            placeholder="Password"
+            value={password}
             onChange={ev => setPassword(ev.target.value)}/>
+        {error && <p className="form-error">{error}</p>}
         <button>Log In</button>
     </form>
     </div>

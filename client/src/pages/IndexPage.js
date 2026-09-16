@@ -1,22 +1,11 @@
-import { useEffect, useState } from "react"
-import Post from "../Post"
+import LocationMap from "../LocationMap"
+import RecentBites from "../RecentBites"
 
 export default function IndexPage() {
-    const [posts, setPosts] = useState([]);
-    useEffect(() => {
-        fetch('http://localhost:4000/post').then(response => {
-            response.json().then(posts => {
-                setPosts(posts);
-            });
-        })
-    }, []);
     return (
         <>
-            <div className="postCard">
-            {posts.length > 0 && posts.map(post => (
-                <Post key={post._id} {...post} />
-            ))}
-            </div>
+            <LocationMap />
+            <RecentBites />
         </>
     )
 }
