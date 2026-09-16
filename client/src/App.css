@@ -386,8 +386,11 @@ main {
 .map-search-overlay {
   position: absolute;
   top: 46px;
-  left: calc(5% + 16px);
-  right: calc(5% + 16px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(90%, 1200px);
+  padding: 0 16px;
+  box-sizing: border-box;
   z-index: 5;
 }
 
@@ -1650,8 +1653,11 @@ button svg {
 
   .map-search-overlay {
     position: static;
+    left: auto;
+    transform: none;
     width: 90%;
     max-width: none;
+    padding: 0;
     margin: 0 auto 14px auto;
   }
 
@@ -1687,12 +1693,26 @@ button svg {
 
   .bite-card {
     width: 100%;
-    height: auto;
-    min-height: 150px;
+    height: 170px;
   }
 
   .bite-card-image {
     width: 34%;
+  }
+
+  .bite-card-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  .bite-card-description {
+    -webkit-line-clamp: 2;
+  }
+
+  /* only show the first 4 on mobile — "See all" links to the rest */
+  .bite-card:nth-child(n+5) {
+    display: none;
   }
 
   /* mobile / smaller screen nav bar */
@@ -1808,8 +1828,7 @@ button svg {
 
   .bite-card {
     width: 100%;
-    height: auto;
-    min-height: 130px;
+    height: 150px;
   }
 
   div.post {
