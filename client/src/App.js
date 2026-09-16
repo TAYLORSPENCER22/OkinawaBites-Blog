@@ -11,6 +11,7 @@ import CreatePost from './pages/CreatePost';
 import PostPage from './pages/PostPage';
 import EditPost from './pages/EditPost';
 import AboutPage from './pages/AboutPage';
+import ExplorePage from './pages/ExplorePage';
 import { useLocation } from 'react-router-dom';
 
 function App() {
@@ -36,6 +37,7 @@ function App() {
         <Route path='/login' element= {<LoginPage />} /> 
         <Route path='/register' element= {<RegisterPage />} />
         <Route path='/about' element={<AboutPage />} />
+        <Route path='/explore' element={<ExplorePage />} />
         <Route path='/create' element={<CreatePost />} />
         <Route path='/post/:id' element ={<PostPage />} />
         <Route path='/edit/:id' element={<EditPost />} />

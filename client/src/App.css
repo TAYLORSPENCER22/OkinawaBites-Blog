@@ -49,6 +49,29 @@ main {
   height: 140px;
 }
 
+.explore {
+  background-color: #847E2A;
+  min-height: 100vh;
+}
+
+.explore header {
+  height: 140px;
+}
+
+.explore-container {
+  max-width: 600px;
+  margin: 60px auto 0 auto;
+  padding: 0 20px;
+  color: #F6F6F6;
+  text-align: center;
+}
+
+.explore-container p {
+  font-family: Epilogue;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
 .about-container {
   max-width: 800px;
   margin: 0 auto;
@@ -1135,6 +1158,112 @@ nav svg {
   display: none;
 }
 
+/* recent bites — horizontally scrollable strip on the homepage */
+.recent-bites {
+  width: 90%;
+  max-width: 1200px;
+  margin: 40px auto 60px auto;
+  position: relative;
+}
+
+.recent-bites-heading {
+  color: #F6F6F6;
+  font-size: 2rem;
+  margin: 0 0 20px 0;
+}
+
+.bite-scroll {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x proximity;
+  padding-bottom: 14px;
+}
+
+.bite-card {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  display: flex;
+  width: 320px;
+  height: 190px;
+  background: #FFF9EF;
+  border: 3px solid #2A2122;
+  border-radius: 24px;
+  overflow: hidden;
+}
+
+.bite-card-image {
+  width: 40%;
+  height: 100%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.bite-card-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 14px 16px;
+}
+
+.bite-card-title {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #2A2122;
+}
+
+.bite-card-description {
+  margin: 6px 0 0 0;
+  font-family: Epilogue;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #444;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+
+.bite-card-footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.bite-author {
+  font-family: Epilogue;
+  font-weight: bold;
+  font-size: 10px;
+  color: #2A2122;
+  padding: 4px 9px;
+  border-radius: 70px;
+}
+
+.bite-date {
+  font-family: Epilogue;
+  font-size: 9px;
+  color: #F6F6F6;
+  background: #A73A5E;
+  padding: 4px 9px;
+  border-radius: 70px;
+}
+
+.explore-link {
+  display: block;
+  text-align: right;
+  color: #F6F6F6;
+  font-size: 1.3rem;
+  margin-top: 10px;
+  transition: transform 0.15s ease;
+}
+
+.explore-link:hover {
+  transform: translateX(4px);
+}
+
 /* home blog posts  */
 
 .postCard {
@@ -1582,7 +1711,15 @@ button svg {
     margin-top: 140px;
   }
 
+  .recent-bites {
+    margin-top: 140px;
+  }
+
   .about-container {
+    margin-top: 140px;
+  }
+
+  .explore-container {
     margin-top: 140px;
   }
 }
@@ -1594,6 +1731,15 @@ button svg {
   .postCard {
     grid-template-columns: 1fr;
     width: 88%;
+  }
+
+  .recent-bites {
+    width: 92%;
+  }
+
+  .bite-card {
+    width: 260px;
+    height: 170px;
   }
 
   div.post {
