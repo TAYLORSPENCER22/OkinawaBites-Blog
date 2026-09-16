@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from "react";
-import Map, { Marker } from "react-map-gl/mapbox";
+import Map, { Marker, NavigationControl } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
 import PlaceSearch from "./PlaceSearch";
 
@@ -108,6 +108,8 @@ export default function LocationPicker({ value, onChange }) {
                                 onLoad={handleMapMoveEnd}
                                 onMoveEnd={handleMapMoveEnd}
                             >
+                                <NavigationControl position="top-right" showCompass={false} />
+
                                 {newPin && (
                                     <Marker longitude={newPin.lng} latitude={newPin.lat} anchor="bottom">
                                         <div className="map-pin" />

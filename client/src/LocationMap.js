@@ -1,5 +1,5 @@
 import { useCallback, useContext, useEffect, useState } from "react";
-import Map, { Marker, Popup } from "react-map-gl/mapbox";
+import Map, { Marker, Popup, NavigationControl } from "react-map-gl/mapbox";
 import { Link } from "react-router-dom";
 import "mapbox-gl/dist/mapbox-gl.css";
 import PlaceSearch from "./PlaceSearch";
@@ -307,6 +307,8 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
                     onLoad={handleMapMoveEnd}
                     onMoveEnd={handleMapMoveEnd}
                 >
+                    <NavigationControl position="top-right" showCompass={false} />
+
                     {locations.map(loc => (
                         <Marker
                             key={loc._id}
