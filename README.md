@@ -1,8 +1,8 @@
 # OkinawaBites
 
-A personal project I started in January 2025 during my trip to Okinawa, Japan. It's turning into a shared map of local food spots — anyone can drop a pin, add a photo and a quick note, and browse what's recommended around the island. Originally started as a travel blog, but I'm reframing it into a lighter, map-first "collection of food" instead of full blog posts.
+A personal project I started in January 2025 during my trip to Okinawa, Japan. Originally started as a travel blog, It's turning into a shared map of local food spots — anyone can create an account, drop a pin, add a photo and a quick note, and browse other's recommendations. 
 
-Built with the MERN stack (MongoDB, Express, React, Node.js), using Mapbox for the interactive map and location search.
+Built with the MERN stack (MongoDB, Express, React, Node.js), using Mapbox for the interactive map and location search. I built the core structure myself, and now I'm using Claude Code to finish it.
 
 ## What's working right now
 
