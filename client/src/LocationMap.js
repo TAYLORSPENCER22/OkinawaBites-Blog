@@ -217,17 +217,17 @@ export default function LocationMap({ onPostCreated, highlightedLocationId }) {
 
     return (
         <div className="map-section">
-            <div className="map-container">
-                <div className="map-search-overlay">
-                    <PlaceSearch
-                        placeholder="Search to add a pin"
-                        onSelect={handleSearchSelect}
-                        onHoverResult={setHoverPin}
-                        bbox={mapView?.bbox}
-                        proximity={mapView?.proximity}
-                    />
-                </div>
+            <div className="map-search-overlay">
+                <PlaceSearch
+                    placeholder="Search to add a pin"
+                    onSelect={handleSearchSelect}
+                    onHoverResult={setHoverPin}
+                    bbox={mapView?.bbox}
+                    proximity={mapView?.proximity}
+                />
+            </div>
 
+            <div className="map-container">
                 {showAuthPrompt && (
                     <div className="map-overlay-backdrop" onClick={() => setShowAuthPrompt(false)}>
                         <div className="map-auth-prompt" onClick={ev => ev.stopPropagation()}>
